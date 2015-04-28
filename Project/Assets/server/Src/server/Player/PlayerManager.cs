@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour {
 	private CharacterController controller;
 	private float horizontalMotion;
 	private float verticalMotion;
-	public int Hp;
+	public float Hp;
 	MovementGestion movement;
 	Weapon_gestion weaponG;
 
@@ -29,7 +29,9 @@ public class PlayerManager : MonoBehaviour {
 			return; //Get lost, this is the server-side!
 		}
 		//Debug.Log("Processing clients movement commands on server");
-		movement.UpdateMovement (horizontalMotion, verticalMotion);
+        if (movement != null)
+		    movement.UpdateMovement (horizontalMotion, verticalMotion);
+        this.GetComponentInChildren<RectTransform>().anchoredPosition = this.transform.localPosition;
 	}
 	
 

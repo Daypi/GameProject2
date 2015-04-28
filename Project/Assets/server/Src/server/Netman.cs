@@ -39,6 +39,7 @@ public class Netman : MonoBehaviour {
 					transform.position,
 					Quaternion.Euler(new Vector3(0, 90, 0)),
 					1);
+                handle.transform.SetParent(transform, false);
 				C_PlayerManager sc = handle.GetComponent<C_PlayerManager>();
 				if (!sc) {
 					Debug.LogError("The prefab has no C_PlayerManager attached!");

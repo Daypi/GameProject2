@@ -15,7 +15,7 @@ public class HUD : MonoBehaviour {
 	private int port = 25000;
 	private int maxplayers = 5;
 	private string serverName  = "CIS Game 1";
-	private string ip  = "220.69.158.180";
+	private string ip  = "localhost";
 	private int conport = 25000;
 	
 	public static bool localPlay = false; //Set to true when local game starts

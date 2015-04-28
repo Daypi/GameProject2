@@ -67,6 +67,7 @@ public class C_PlayerManager : MonoBehaviour {
 		//Check if this update applies for the current client
 		if ((owner != null) && (owner == Network.player)) {
 			Debug.Log("moving");
+            //this.GetComponentInChildren<HpBar>().scale = this.GetComponent<PlayerManager>().Hp / 100;
 			float motionH  = Input.GetAxis("Horizontal");
 			float motionV  = 0;
 			if ((motionH != lastMotionH) || (motionV != lastMotionV)) {
