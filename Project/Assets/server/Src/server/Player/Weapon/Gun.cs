@@ -7,7 +7,7 @@ public class Gun:  Iweapon  {
 	public GameObject owner { get;  set; }
 	public GameObject projectilePrefab;
 	private int ammo = 10;
-	private int dammage = 20;
+	private int damage = 20;
 
 	public Gun(GameObject _owner, GameObject Projectile)
 	{
@@ -38,6 +38,8 @@ public class Gun:  Iweapon  {
 				Vector3 location = hit.point; // Where did I make impact?
 				GameObject targetGameObject = hit.collider.gameObject; // What's the GameObject?
 				Debug.Log(target);
+                if (target.tag == "Player")
+                    target.GetComponent<PlayerManager>().takeDamage(damage);
 			}
 			//GameObject projectile =(GameObject)GameObject.Instantiate(projectilePrefab, bones.transform.position, Quaternion.Euler(new Vector3(angle * -1,90,0)));
 			timeSinceLastShoot = Time.time;

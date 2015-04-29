@@ -5,10 +5,11 @@ public class C_PlayerManager : MonoBehaviour {
 
 	public float angle;
 	private float character_angle;
+    private float hp;
 	public GameObject child;
 	//That's actually not the owner but the player,
     //the server instantiated the prefab for, where this script is attached
-	private NetworkPlayer owner;
+	public NetworkPlayer owner;
     
     //Those are stored to only send RPCs to the server when the 
     //data actually changed.
@@ -41,6 +42,15 @@ public class C_PlayerManager : MonoBehaviour {
 		}
 	}
 
+    [RPC]
+    public void setHp(float hparg, string guid)
+    {
+        Debug.Log("son sien" + guid);
+        Debug.Log("mon mien :" + owner.guid);
+        if (guid == owner.guid)
+            this.hp = hparg;
+    }
+
 	[RPC]
 	public NetworkPlayer getOwner() {
 		return owner;
@@ -66,8 +76,9 @@ public class C_PlayerManager : MonoBehaviour {
 		}
 		//Check if this update applies for the current client
 		if ((owner != null) && (owner == Network.player)) {
-			Debug.Log("moving");
-            this.GetComponentInChildren<HpBar>().scale = this.GetComponent<PlayerManager>().Hp / 100;
+			//Debug.Log("moving");
+            //Debug.Log("hp du client :" + this.GetComponent<PlayerManager>().Hp);
+            this.GetComponentInChildren<HpBar>().scale = hp / 100;
 			float motionH  = Input.GetAxis("Horizontal");
 			float motionV  = 0;
 			if ((motionH != lastMotionH) || (motionV != lastMotionV)) {
