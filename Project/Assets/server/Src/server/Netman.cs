@@ -47,7 +47,8 @@ public class Netman : MonoBehaviour {
 				//Get the network view of the player and add its owner
 				NetworkView netView  = handle.GetComponent<NetworkView>();
                 handle.GetComponent<PlayerManager>().owner = spawn;
-				netView.RPC("setOwner", RPCMode.AllBuffered, spawn);
+				netView.RPC("setOwner", RPCMode.AllBuffered, spawn, spawn.guid);
+                Debug.Log(spawn.guid);
 			}
 		}
 		scheduledSpawns.Remove(requester); //Remove the guy from the list now
