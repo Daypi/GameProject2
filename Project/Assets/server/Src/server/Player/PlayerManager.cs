@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour {
 	private CharacterController controller;
 	private float horizontalMotion;
 	private float verticalMotion;
-	public float Hp;
+	public float Hp = 100;
 	MovementGestion movement;
 	Weapon_gestion weaponG;
 
@@ -24,7 +24,6 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (Network.isClient);
 		if (Network.isClient) {
 			return; //Get lost, this is the server-side!
 		}

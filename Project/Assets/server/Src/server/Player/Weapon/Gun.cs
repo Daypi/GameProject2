@@ -37,8 +37,6 @@ public class Gun:  Iweapon  {
 				float distance = hit.distance; // How far out?
 				Vector3 location = hit.point; // Where did I make impact?
 				GameObject targetGameObject = hit.collider.gameObject; // What's the GameObject?
-				PlayerManager manager = targetGameObject.GetComponent<PlayerManager>();
-				manager.Hp = manager.Hp - 10;
 				Debug.Log(target);
 			}
 			//GameObject projectile =(GameObject)GameObject.Instantiate(projectilePrefab, bones.transform.position, Quaternion.Euler(new Vector3(angle * -1,90,0)));

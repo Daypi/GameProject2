@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class HpBar : MonoBehaviour {
-    public  float scale = 0f;
+    public  float scale = 1f;
 
 
 	// Update is called once per frame
