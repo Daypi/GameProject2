@@ -5,7 +5,7 @@ public class C_PlayerManager : MonoBehaviour {
 
 	public float angle;
 	private float character_angle;
-    public float hp;
+    public float hp = 100f;
 	public GameObject child;
 	//That's actually not the owner but the player,
     //the server instantiated the prefab for, where this script is attached
@@ -66,7 +66,7 @@ public class C_PlayerManager : MonoBehaviour {
 		//Just to make sure no one can use this until we didn't
 		//find the right player. (see setOwner())
 		if (Network.isClient) {
-			enabled = false;
+            ;// enabled = false;
 		}
 	}
 
@@ -76,6 +76,7 @@ public class C_PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        this.GetComponentInChildren<HpBar>().scale = hp / 100;
 		if (Network.isServer) {
 			return; //get lost, this is the client side!
 		}
@@ -83,7 +84,7 @@ public class C_PlayerManager : MonoBehaviour {
 		if ((owner != null) && (owner == Network.player)) {
 			//Debug.Log("moving");
             //Debug.Log("hp du client :" + this.GetComponent<PlayerManager>().Hp);
-            this.GetComponentInChildren<HpBar>().scale = hp / 100;
+            
 			float motionH  = Input.GetAxis("Horizontal");
 			float motionV  = 0;
 			if ((motionH != lastMotionH) || (motionV != lastMotionV)) {
