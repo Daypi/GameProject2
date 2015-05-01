@@ -76,7 +76,7 @@ public class C_PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.GetComponentInChildren<HpBar>().scale = hp / 100;
+        this.GetComponent<HpBar>().scale = hp / 100;
 		if (Network.isServer) {
 			return; //get lost, this is the client side!
 		}
