@@ -72,6 +72,7 @@ public class PlayerManager : MonoBehaviour {
     public void takeDamage(int damage)
     {
 		playerInfo.Hp -= damage;
+		Debug.Log ("Dammage: " + damage + " Hp player: " + playerInfo.Hp); 
 		if (playerInfo.Hp < 0) {
 			playerInfo.Hp = 0;
 		}

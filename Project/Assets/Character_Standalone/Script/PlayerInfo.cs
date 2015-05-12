@@ -6,16 +6,16 @@ public class PlayerInfo : MonoBehaviour {
 	public AnimatorState State = AnimatorState.Idle;
 	public float movement;
 	public int Facing;
-	public int Hp = 100;
+	public float Hp = 100f;
 	public bool dead = false;
 	// Use this for initialization
 	void Start () {
-	
+		Hp = 100f;
 	}
 
 
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
-		int _Hp = 100;
+		float _Hp = 100;
 		int _State = (int)AnimatorState.Idle;
 		float _movement = 0f;
 		int _Facing = 0;
@@ -32,7 +32,7 @@ public class PlayerInfo : MonoBehaviour {
 			stream.Serialize(ref _Facing);
 			stream.Serialize(ref _dead);
 		} else {
-			stream.Serialize(ref Hp);
+			stream.Serialize(ref _Hp);
 			stream.Serialize(ref _State);
 			stream.Serialize(ref _movement);
 			stream.Serialize(ref _Facing);
