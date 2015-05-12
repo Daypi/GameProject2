@@ -32,6 +32,8 @@ public class C_PlayerManager : MonoBehaviour {
 				this.transform.FindChild("Main Camera").GetComponent<Camera>().enabled = false;
 			}
 
+			this.transform.FindChild("IkAim").GetComponent<FollowMouse>().enabled = false;
+
 			if (this.transform.FindChild("Main Camera").GetComponent<AudioListener>()) {
 				this.transform.FindChild("Main Camera").GetComponent<AudioListener>().enabled = false;
 			}
