@@ -25,6 +25,7 @@ public class C_PlayerManager : MonoBehaviour {
 			//So it just so happens that WE are the player in question,
 			//which means we can enable this control again
 			enabled=true;
+			this.transform.FindChild("IkAim").GetComponent<NetworkView>().observed = null;
 		}
 		else {
 			//Disable a bunch of other things here that are not interesting:

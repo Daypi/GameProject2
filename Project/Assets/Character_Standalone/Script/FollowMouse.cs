@@ -4,6 +4,7 @@ using System.Collections;
 public class FollowMouse : MonoBehaviour {
 	public GameObject mesh;
 	private bool isTheServer = false;
+	public bool imowner = false;
 	// Use this for initialization
 	void Start () {
 		if (Network.isServer == true)
