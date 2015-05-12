@@ -8,6 +8,7 @@ public class PlayerInfo : MonoBehaviour {
 	public int Facing;
 	public float Hp = 100f;
 	public bool dead = false;
+	public GameObject mesh;
 	// Use this for initialization
 	void Start () {
 		Hp = 100f;
@@ -49,5 +50,10 @@ public class PlayerInfo : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if (Facing == 1)
+			mesh.transform.localRotation = Quaternion.Euler(0,90,0);
+		else
+			mesh.transform.localRotation = Quaternion.Euler(0,-90,0);
+
 	}
 }
