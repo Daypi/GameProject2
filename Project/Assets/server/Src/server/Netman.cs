@@ -37,7 +37,7 @@ public class Netman : MonoBehaviour {
 				GameObject handle =  (GameObject)Network.Instantiate(
 					player, 
 					transform.position,
-					Quaternion.Euler(new Vector3(0, 90, 0)),
+					Quaternion.Euler(new Vector3(0, 0, 0)),
 					1);
 				C_PlayerManager sc = handle.GetComponent<C_PlayerManager>();
 				if (!sc) {

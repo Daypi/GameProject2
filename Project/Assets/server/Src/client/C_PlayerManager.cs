@@ -5,7 +5,6 @@ public class C_PlayerManager : MonoBehaviour {
 
 	public float angle;
 	private float character_angle;
-    public float hp = 100f;
 	public GameObject child;
 	//That's actually not the owner but the player,
     //the server instantiated the prefab for, where this script is attached
@@ -43,7 +42,7 @@ public class C_PlayerManager : MonoBehaviour {
 		}
 	}
 
-    [RPC]
+   /* [RPC]
     public void setHp(float hparg, string aguid)
     {
         Debug.Log("son sien" + aguid);
@@ -54,7 +53,7 @@ public class C_PlayerManager : MonoBehaviour {
             Debug.Log(hparg);
         }
 
-    }
+    }*/
 
 	[RPC]
 	public NetworkPlayer getOwner() {
@@ -76,7 +75,7 @@ public class C_PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.GetComponent<HpBar>().scale = hp / 100;
+        this.GetComponent<HpBar>().scale = this.GetComponent<PlayerInfo>().Hp / 100;
 		if (Network.isServer) {
 			return; //get lost, this is the client side!
 		}
@@ -97,7 +96,7 @@ public class C_PlayerManager : MonoBehaviour {
 			}
 			if (Input.GetButton("Jump"))
 			{
-				child.SendMessage("jumpanim");
+				Debug.Log ("clientJump");
 				GetComponent<NetworkView>().RPC("jump",RPCMode.Server);
 			}
 			Vector3 mousePos = Input.mousePosition;

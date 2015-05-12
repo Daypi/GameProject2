@@ -10,16 +10,16 @@ public class PlayerManager : MonoBehaviour {
 	private CharacterController controller;
 	private float horizontalMotion;
 	private float verticalMotion;
-    public float Hp;
+	private PlayerInfo playerInfo;
 	MovementGestion movement;
 	Weapon_gestion weaponG;
 
 	// Use this for initialization
 	void Start () {
-        Hp = 100f;
 		if (Network.isServer) {
+			playerInfo = this.GetComponent<PlayerInfo>();
 			controller = this.GetComponent<CharacterController>();
-			movement = new MovementGestion(controller);
+			movement = new MovementGestion(controller, playerInfo);
 			weaponG = new Weapon_gestion(this.gameObject, ShootGunpParticle,GunParticle,FlamethrowerParticle);
 		}
 	}
@@ -44,6 +44,7 @@ public class PlayerManager : MonoBehaviour {
 	[RPC]
 	public void jump()
 	{
+		Debug.Log ("rpcJump");
 		movement.jump ();
 	}
 
@@ -70,10 +71,9 @@ public class PlayerManager : MonoBehaviour {
 
     public void takeDamage(int damage)
     {
-        this.Hp -= damage;
-        if (this.Hp < 0)
-            this.Hp = 0;
-
-        GetComponent<NetworkView>().RPC("setHp", RPCMode.Others, this.Hp, this.GetComponent<C_PlayerManager>().owner.guid);
+		playerInfo.Hp -= damage;
+		if (playerInfo.Hp < 0) {
+			playerInfo.Hp = 0;
+		}
     }
 }

@@ -9,6 +9,8 @@ public class HpBar : MonoBehaviour {
 
     void Start()
     {
+		if (Network.isServer == true)
+			this.enabled = false;
         camera = Camera.main;
     }
 	// Update is called once per frame
