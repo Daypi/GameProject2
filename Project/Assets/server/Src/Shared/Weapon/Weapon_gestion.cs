@@ -86,7 +86,8 @@ public class Weapon_gestion : MonoBehaviour {
 		switch (current) {
 		case 0:
 			Vector3 direction = targetIK.transform.position - currentChild;
-			Instantiate(GunParticle, currentChild,  Quaternion.LookRotation(direction));
+			GameObject tmp = (GameObject)Instantiate(GunParticle, currentChild,  Quaternion.LookRotation(direction));
+                Destroy(tmp, 0.5f);
 			break;
 		}
 	}
