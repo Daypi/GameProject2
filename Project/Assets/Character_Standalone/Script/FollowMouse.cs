@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class FollowMouse : MonoBehaviour {
-	public GameObject mesh;
 	private bool isTheServer = false;
 	// Use this for initialization
 	void Start () {

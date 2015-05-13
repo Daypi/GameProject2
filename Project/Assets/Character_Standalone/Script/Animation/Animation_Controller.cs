@@ -30,6 +30,7 @@ public class Animation_Controller : MonoBehaviour {
 			break;
 		}
 		animation.SetFloat ("Movement", playerinfo.movement * playerinfo.Facing);
+		animation.SetInteger ("Weapon", playerinfo.gun);
 
 	}
 }

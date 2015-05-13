@@ -3,16 +3,12 @@ using System.Collections;
 
 
 public class PlayerManager : MonoBehaviour {
-	public GameObject ShootGunpParticle;
-	public GameObject GunParticle;
-	public GameObject FlamethrowerParticle;
     public NetworkPlayer owner;
 	private CharacterController controller;
 	private float horizontalMotion;
 	private float verticalMotion;
 	private PlayerInfo playerInfo;
 	MovementGestion movement;
-	Weapon_gestion weaponG;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +16,6 @@ public class PlayerManager : MonoBehaviour {
 			playerInfo = this.GetComponent<PlayerInfo>();
 			controller = this.GetComponent<CharacterController>();
 			movement = new MovementGestion(controller, playerInfo);
-			weaponG = new Weapon_gestion(this.gameObject, ShootGunpParticle,GunParticle,FlamethrowerParticle);
 		}
 	}
 	
@@ -48,16 +43,7 @@ public class PlayerManager : MonoBehaviour {
 		movement.jump ();
 	}
 
-	/**
-     * The client calls this to notify the server about Shoot button push
-     * @param	angle
-     */
-	[RPC]
-	public void shoot(float angle)
-	{
-		weaponG.shoot (angle);
-	}
-	
+
 	/**
      * The client calls this to notify the server about new motion data
      * @param	motion

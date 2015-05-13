@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using RootMotion.FinalIK;
 
 public class C_PlayerManager : MonoBehaviour {
-
-	public float angle;
-	private float character_angle;
+	
 	public GameObject child;
 	//That's actually not the owner but the player,
     //the server instantiated the prefab for, where this script is attached
@@ -45,18 +44,6 @@ public class C_PlayerManager : MonoBehaviour {
 		}
 	}
 
-   /* [RPC]
-    public void setHp(float hparg, string aguid)
-    {
-        Debug.Log("son sien" + aguid);
-        Debug.Log("mon mien :" + guid);
-        if (aguid == guid)
-        {
-            this.hp = hparg;
-            Debug.Log(hparg);
-        }
-
-    }*/
 
 	[RPC]
 	public NetworkPlayer getOwner() {
@@ -102,26 +89,19 @@ public class C_PlayerManager : MonoBehaviour {
 				Debug.Log ("clientJump");
 				GetComponent<NetworkView>().RPC("jump",RPCMode.Server);
 			}
-			Vector3 mousePos = Input.mousePosition;
-			mousePos.z = 10;
-			Vector3 mouse = Camera.main.GetComponent<Camera>().ScreenToWorldPoint  (mousePos);
 			GameObject bones = GameObject.Find ("ak");
-			this.angle = (GetAngle (this.transform.position, mouse));
-			this.character_angle = (GetAngle (this.transform.position, mouse));
 			if (Input.GetMouseButtonDown (0))
 			{
-				GetComponent<NetworkView>().RPC("shoot",RPCMode.Server, character_angle);
+				GetComponent<NetworkView>().RPC("shoot",RPCMode.Server);
+				GetComponent<Weapon_gestion>().C_Shoot();
+			}
+
+			float mousewheel = Input.GetAxis("Mouse ScrollWheel");
+				if (mousewheel != 0)
+			{
+				GetComponent<NetworkView>().RPC("changeWeapon",RPCMode.Server, mousewheel);
 			}
 		}
 	}
 
-	float GetAngle(Vector3 from, Vector3 to)
-	{
-		Vector2 From = new Vector2(from.x, from.y);
-		Vector2 To = new Vector2(to.x, to.y) ;
-		float angleBetween = Mathf.Atan2(To.y - From.y, To.x - From.x) * 180 / Mathf.PI;
-		return angleBetween;
-		
-	}
-	
 }

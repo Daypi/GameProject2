@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Gun:  Iweapon  {
+public class Shotgun:  Iweapon  {
 	private float fireDelay;
 	private float timeSinceLastShoot;
 	public GameObject owner { get;  set; }
-	public GameObject projectilePrefab;
 	private int ammo = 10;
 	private int damage = 20;
 
-	public Gun(GameObject _owner, GameObject Projectile)
+	public Shotgun(GameObject _owner)
 	{
-		projectilePrefab = Projectile;
 		owner = _owner;
 		fireDelay = 0.5f;
 	}
@@ -22,16 +20,17 @@ public class Gun:  Iweapon  {
 		set {ammo = value;}
 	}
 
-	public void shoot(float angle){
+	public void C_shoot(GameObject target, Vector3 child){
+	}
+
+	public void shoot(GameObject tar, Vector3 child){
 		if (Time.time > fireDelay + timeSinceLastShoot) //&& ammo != 0)
 		{
-			Debug.Log ("ici je shoot avec le gun");
-			Vector3 vForce = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
-			vForce.Normalize ();
-			Debug.DrawRay (owner.transform.position, vForce, Color.red, 2.0f);
+			Vector3 direction = tar.transform.position - owner.transform.FindChild("Ik").transform.position;
+			Debug.DrawRay (owner.transform.FindChild("Ik").transform.position, direction * 4, Color.red, 5.0f);
 			RaycastHit hit;
-			GameObject bones = owner;//GameObject.Find ("ak/Cannon");
-			if (Physics.Raycast(bones.transform.position, vForce, out hit))
+			Vector3 bones = owner.transform.FindChild("Ik").position;//GameObject.Find ("ak/Cannon");
+			if (Physics.Raycast(bones, direction, out hit))
 			{
 				Collider target = hit.collider; // What did I hit?
 				float distance = hit.distance; // How far out?
