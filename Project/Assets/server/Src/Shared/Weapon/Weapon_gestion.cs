@@ -43,6 +43,15 @@ public class Weapon_gestion : MonoBehaviour {
 	}
 
 	void Update () {
+        //the dead dont shoot
+        if (playerInfo.dead)
+        {
+            Gun.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = false;
+            Shotgun.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = false;
+            Riffle.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = false;
+            Sword.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = false;
+            return;
+        }
 		current = playerInfo.gun;
 			lastcurrent = current;
 			switch (current) {
@@ -83,6 +92,8 @@ public class Weapon_gestion : MonoBehaviour {
 
 	public void C_Shoot()
 	{
+        if (playerInfo.dead)
+            return;
 		switch (current) {
 		case 0:
 			Vector3 direction = targetIK.transform.position - currentChild;
@@ -96,6 +107,9 @@ public class Weapon_gestion : MonoBehaviour {
 	[RPC]
 	public void shoot()
 	{
+        //dead ppl dont shoot
+        if (playerInfo.dead)
+            return;
 		weapon[0].shoot (targetIK, currentChild);
 	/*	Vector3 vForce = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
 		vForce.Normalize ();

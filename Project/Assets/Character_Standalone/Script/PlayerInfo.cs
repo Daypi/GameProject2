@@ -9,12 +9,19 @@ public class PlayerInfo : MonoBehaviour {
 	public float Hp = 100f;
 	public bool dead = false;
 	public int gun = 0;
+    public string playerName = "Grunt";
 	public GameObject mesh;
 	// Use this for initialization
 	void Start () {
 		Hp = 100f;
 	}
 
+    //called before respawning
+    public void resetPlayerData()
+    {
+        Hp = 100f;
+        gun = 0;
+    }
 
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 		float _Hp = 100;

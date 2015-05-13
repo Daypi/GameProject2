@@ -65,7 +65,19 @@ public class C_PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!this.GetComponent<PlayerInfo>().dead && !this.GetComponent<HpBar>().enabled)
+            this.GetComponent<HpBar>().enabled = true;
+        else if (this.GetComponent<PlayerInfo>().dead && this.GetComponent<HpBar>().enabled)
+            this.GetComponent<HpBar>().enabled = false;
         this.GetComponent<HpBar>().scale = this.GetComponent<PlayerInfo>().Hp / 100;
+        //si on est mort, on ne s'affiche pas
+        if (this.GetComponent<PlayerInfo>().dead)
+        {
+            Renderer[] lChildRenderers = gameObject.GetComponentsInChildren<Renderer>();
+            foreach (Renderer lRenderer in lChildRenderers)
+                lRenderer.enabled = false;
+            gameObject.GetComponentInChildren<CharacterController>().enabled = false;
+        }
 		if (Network.isServer) {
 			return; //get lost, this is the client side!
 		}

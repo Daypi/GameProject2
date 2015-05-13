@@ -19,12 +19,30 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 	
+    void respawn()
+    {
+        int selectedId;
+        GameObject[] respawns = GameObject.FindGameObjectsWithTag("Respawn");
+        selectedId = Random.Range(0, respawns.Length);
+        this.transform.position = respawns[selectedId].transform.position;
+        playerInfo.dead = false;
+    }
 
 	// Update is called once per frame
 	void Update () {
 		if (Network.isClient) {
 			return; //Get lost, this is the server-side!
 		}
+        //si on est mort, il faut mourrir
+        if (playerInfo.Hp <= 0)
+        {
+            //reset les valeurs du joueur
+            playerInfo.dead = true;
+            playerInfo.resetPlayerData();
+            this.respawn();
+            //envoyer un RPC a tout le monde (pour afficher le kill)
+            //timer avant de respawn
+        }
 		//Debug.Log("Processing clients movement commands on server");
         if (movement != null)
 		    movement.UpdateMovement (horizontalMotion, verticalMotion);
