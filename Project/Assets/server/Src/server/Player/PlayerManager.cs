@@ -71,6 +71,9 @@ public class PlayerManager : MonoBehaviour {
 	{
 		horizontalMotion = hor;
 		verticalMotion = vert;
+		Vector3 position = this.transform.position;
+		position.z = 0;
+		this.transform.position = position;
 	}
 
     public void takeDamage(int damage)

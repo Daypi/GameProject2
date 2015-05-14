@@ -13,6 +13,10 @@ public class C_PlayerManager : MonoBehaviour {
     //data actually changed.
     private float lastMotionH; //horizontal motion
     private float lastMotionV; //vertical motion
+
+	public Vector3 serverPos;
+	public Quaternion serverRot;
+	public float positionErrorThreshold = 0.2f;
     
 	[RPC]
     void setOwner(NetworkPlayer player, string aguid)
@@ -58,6 +62,18 @@ public class C_PlayerManager : MonoBehaviour {
             ;// enabled = false;
 		}
 	}
+
+	/*public void lerpToTarget() {
+		Vector3 distance = Vector3.Distance(transform.position, serverPos);
+		
+		//only correct if the error margin (the distance) is too extreme
+		if (distance >= positionErrorThreshold) {
+			var lerp = ((1 / distance) * speed) / 100;
+			//Debug.Log("Lerp time: " + lerp);
+			transform.position = Vector3.Lerp(transform.position, serverPos, lerp);
+			transform.rotation = Quaternion.Slerp(transform.rotation, serverRot, lerp);
+		}
+	}*/
 
 	// Use this for initialization
 	void Start () {

@@ -15,7 +15,7 @@ public class MovementGestion {
 	float inAirControlAcceleration = 3.0f;
 	
 	// How high do we jump when pressing jump and letting go immediately
-	float jumpHeight = 0.2f;
+	float jumpHeight = 0.1f;
 	
 	// The gravity for the character
 	float gravity = 1.0f;
