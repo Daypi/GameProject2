@@ -81,4 +81,5 @@ public class PlayerManager : MonoBehaviour {
 			playerInfo.Hp = 0;
 		}
     }
+
 }

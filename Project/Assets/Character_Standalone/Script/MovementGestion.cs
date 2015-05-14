@@ -15,7 +15,7 @@ public class MovementGestion {
 	float inAirControlAcceleration = 3.0f;
 	
 	// How high do we jump when pressing jump and letting go immediately
-	float jumpHeight = 0.1f;
+	float jumpHeight = 0.2f;
 	
 	// The gravity for the character
 	float gravity = 1.0f;
@@ -32,7 +32,7 @@ public class MovementGestion {
 	float JumpLatenceCurrentTime = -1.0f;
 
 	bool canJump = true;
-	private bool pushjump = false;
+	public bool pushjump = false;
 	
 	private float jumpRepeatTime = 0.00f;
 	private float jumpTimeout = 0.15f;
@@ -94,16 +94,18 @@ public class MovementGestion {
 			// Jump
 			// - Only when pressing the button down
 			// - With a timeout so you can press the button slightly before landing	
-			Debug.Log("je jump");
 			if (canJump && Time.time < lastJumpButtonTime + jumpTimeout) {
+				Debug.Log("je jump");
 				verticalSpeed = CalculateJumpVerticalSpeed (jumpHeight);
 				DidJump();
 				playerinfo.State = AnimatorState.JumpStart;
 			}
+			return;
 		}
 		if (Did_Hit_Wall() && !IsGrounded() && pushjump == true )
 		{
 			WallJumpCurrentTime = Time.deltaTime;
+			DidJump();
 			verticalSpeed = CalculateJumpVerticalSpeed (jumpHeight);
 		}
 		Debug.Log (IsGrounded ());
@@ -117,6 +119,7 @@ public class MovementGestion {
 			if (jumping && !jumpingReachedApex && verticalSpeed <= 0.0f)
 			{
 				jumpingReachedApex = true;
+				jumping = false;
 				playerinfo.State = AnimatorState.Fall;
 				character.SendMessage("DidJumpReachApex", SendMessageOptions.DontRequireReceiver);
 			}
@@ -192,9 +195,9 @@ public class MovementGestion {
 	
 	public void jump()
 	{
-		lastJumpButtonTime = Time.time;
-		pushjump = true;
-		Debug.Log ("Jump");
+			lastJumpButtonTime = Time.time;
+			pushjump = true;
+			Debug.Log ("Jump");
 	}
 	
 	public void UpdateMovement(float horizontal, float veritcal)

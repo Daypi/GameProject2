@@ -96,7 +96,7 @@ public class C_PlayerManager : MonoBehaviour {
 				lastMotionH = motionH;
 				lastMotionV = motionV;
 			}
-			if (Input.GetButton("Jump"))
+			if (Input.GetKeyDown("space"))
 			{
 				Debug.Log ("clientJump");
 				GetComponent<NetworkView>().RPC("jump",RPCMode.Server);
