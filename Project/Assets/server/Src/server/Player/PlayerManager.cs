@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		if (Network.isClient) {
 			return; //Get lost, this is the server-side!
 		}

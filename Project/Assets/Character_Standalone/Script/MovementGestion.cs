@@ -8,7 +8,7 @@ public class MovementGestion {
 	// The speed when walking
 	float walkSpeed = 2.0f;
 	// after trotAfterSeconds of walking we trot with trotSpeed
-	float trotSpeed = 4.0f;
+	public float trotSpeed = 8.0f;
 	// when pressing "Fire3" button (cmd) we start running
 	float runSpeed = 6.0f;
 	

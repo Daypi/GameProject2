@@ -13,9 +13,10 @@ public class C_PlayerManager : MonoBehaviour {
     //data actually changed.
     private float lastMotionH; //horizontal motion
     private float lastMotionV; //vertical motion
-
+	private MovementGestion move;
 	public Vector3 serverPos;
 	public Quaternion serverRot;
+	//public Quaternion serverRot;
 	public float positionErrorThreshold = 0.2f;
     
 	[RPC]
@@ -29,6 +30,7 @@ public class C_PlayerManager : MonoBehaviour {
 			//which means we can enable this control again
 			enabled=true;
 			this.transform.FindChild("IkAim").GetComponent<NetworkView>().observed = null;
+			move = new MovementGestion(this.GetComponent<CharacterController>(), this.GetComponent<PlayerInfo>());
 		}
 		else {
 			//Disable a bunch of other things here that are not interesting:
@@ -114,10 +116,10 @@ public class C_PlayerManager : MonoBehaviour {
 			}
 			if (Input.GetKeyDown("space"))
 			{
+				move.jump();
 				Debug.Log ("clientJump");
 				GetComponent<NetworkView>().RPC("jump",RPCMode.Server);
 			}
-			GameObject bones = GameObject.Find ("ak");
 			if (Input.GetMouseButtonDown (0))
 			{
 				GetComponent<NetworkView>().RPC("shoot",RPCMode.Server);
@@ -129,7 +131,21 @@ public class C_PlayerManager : MonoBehaviour {
 			{
 				GetComponent<NetworkView>().RPC("changeWeapon",RPCMode.Server, mousewheel);
 			}
+			move.UpdateMovement(motionH, motionV);
 		}
 	}
+
+	public void lerpToTarget() {
+		var distance = Vector3.Distance(transform.position, serverPos);
+		
+		//only correct if the error margin (the distance) is too extreme
+		if (distance >= positionErrorThreshold) {
+			float lerp = ((1 / distance) * move.trotSpeed) / 100;
+			//Debug.Log("Lerp time: " + lerp);
+			transform.position = Vector3.Lerp(transform.position, serverPos, lerp);
+			transform.rotation = Quaternion.Slerp(transform.rotation, serverRot, lerp);
+		}
+	}
+
 
 }

@@ -12,7 +12,7 @@ public class Gun:  Iweapon  {
 	public Gun(GameObject _owner)
 	{
 		owner = _owner;
-		fireDelay = 0.5f;
+		fireDelay = 0.0f;
 	}
 
 	public int Ammo

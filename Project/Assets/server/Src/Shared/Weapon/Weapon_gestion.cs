@@ -42,7 +42,7 @@ public class Weapon_gestion : MonoBehaviour {
 		currentChild = Gun.transform.FindChild("Ik").gameObject.transform.position;
 	}
 
-	void Update () {
+	void FixedUpdate () {
         //the dead dont shoot
         if (playerInfo.dead)
         {
