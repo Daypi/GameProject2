@@ -4,7 +4,7 @@ using System.Collections;
 public class Predictor : MonoBehaviour {
 	public Transform observedTransform ;
 	public C_PlayerManager receiver ; //Guy who is receiving data
-	public float pingMargin = 0.5f; //ping top-margin
+	public float pingMargin = 0.1f; //ping top-margin
 	
 	private float clientPing ;
 	private NetState[] serverStateBuffer  = new NetState[20];

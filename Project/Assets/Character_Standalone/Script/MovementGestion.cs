@@ -230,6 +230,9 @@ public class MovementGestion {
 		//character.transform.Translate(movement, Space.World);
 		ApplyGravity ();
 		playerinfo.movement = horizontal;
+		movement = character.transform.position;
+		movement.z = 0;
+		character.transform.position = movement;
 	}
 
 	bool Did_Hit_Wall()
