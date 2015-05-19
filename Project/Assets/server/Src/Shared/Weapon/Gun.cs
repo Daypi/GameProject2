@@ -9,10 +9,11 @@ public class Gun:  Iweapon  {
 	private int damage = 20;
 	public GameObject particle;
 
-	public Gun(GameObject _owner)
+	public Gun(GameObject _owner, GameObject part)
 	{
+		particle = part;
 		owner = _owner;
-		fireDelay = 0.0f;
+		fireDelay = 0.5f;
 	}
 
 	public int Ammo
@@ -21,8 +22,12 @@ public class Gun:  Iweapon  {
 		set {ammo = value;}
 	}
 
-	public void C_shoot(GameObject target, Vector3 child){
-
+	public void C_shoot(){
+		if (Time.time > fireDelay + timeSinceLastShoot)  //&& ammo != 0)
+		{
+			owner.GetComponent<Weapon_gestion>().instantiate(particle);
+			timeSinceLastShoot = Time.time;
+		}
 	}
 
 	public void shoot(GameObject tar, Vector3 child){

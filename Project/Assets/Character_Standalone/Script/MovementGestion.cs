@@ -2,7 +2,8 @@
 using UnityEngine;
 
 public class MovementGestion {
-	
+
+	float dt;
 	PlayerInfo playerinfo;
 	CharacterController character;
 	// The speed when walking
@@ -15,10 +16,10 @@ public class MovementGestion {
 	float inAirControlAcceleration = 3.0f;
 	
 	// How high do we jump when pressing jump and letting go immediately
-	float jumpHeight = 0.1f;
+	float jumpHeight = 5.0f;
 	
 	// The gravity for the character
-	float gravity = 1.0f;
+	float gravity = 20.0f;
 	float gravityWall = 0.1f;
 	bool didApplyGravity = true;
 	// The gravity in controlled descent mode
@@ -87,24 +88,24 @@ public class MovementGestion {
 	void ApplyJumping ()
 	{
 		// Prevent jumping too fast after each other
-		if (lastJumpTime + jumpRepeatTime > Time.time)
+		if (lastJumpTime + jumpRepeatTime > Time.fixedTime)
 			return;
 
 		if (IsGrounded() && pushjump == true) {
 			// Jump
 			// - Only when pressing the button down
 			// - With a timeout so you can press the button slightly before landing	
-			if (canJump && Time.time < lastJumpButtonTime + jumpTimeout) {
-				Debug.Log("je jump");
+			if (canJump && Time.fixedTime < lastJumpButtonTime + jumpTimeout) {
 				verticalSpeed = CalculateJumpVerticalSpeed (jumpHeight);
+				Debug.Log(verticalSpeed);
 				DidJump();
 				playerinfo.State = AnimatorState.JumpStart;
 			}
 			return;
 		}
-		if (Did_Hit_Wall() && !IsGrounded() && pushjump == true )
+	 if (Did_Hit_Wall() && !IsGrounded() && pushjump == true )
 		{
-			WallJumpCurrentTime = Time.deltaTime;
+			WallJumpCurrentTime = dt;
 			DidJump();
 			verticalSpeed = CalculateJumpVerticalSpeed (jumpHeight);
 		}
@@ -134,10 +135,10 @@ public class MovementGestion {
 					playerinfo.State = AnimatorState.StopLand;
 			}
 			else if ((collisionFlags & CollisionFlags.Sides) !=0 && jumpingReachedApex == true)
-				verticalSpeed -= gravityWall * Time.deltaTime;
+				verticalSpeed -= gravityWall / 2 * dt;
 			else
 			{
-				verticalSpeed -= gravity * Time.deltaTime;
+				verticalSpeed -= gravity / 2 * dt;
 			}
 		}
 	}
@@ -154,7 +155,7 @@ public class MovementGestion {
 		jumping = true;
 		jumpingReachedApex = false;
 		pushjump = false;
-		lastJumpTime = Time.time;
+		lastJumpTime = Time.fixedTime;
 		lastJumpStartHeight = character.transform.position.y;
 		lastJumpButtonTime = -10;
 		
@@ -170,8 +171,20 @@ public class MovementGestion {
 	}
 	
 	bool IsGrounded () {
+		Vector3 pos = character.transform.position;
+		Vector3 posa = pos;
+		Vector3 posb = pos;
+		posa.x = pos.x - 0.5f;
+		posb.x = pos.x + 0.5f;
+		if (Physics.Raycast (pos, -Vector3.up, 0.1f))
+			return true;
+		else if (Physics.Raycast (posa , -Vector3.up, 0.1f))
+			return true;
+		else if (Physics.Raycast (posb , -Vector3.up, 0.1f))
+			return true;
+		else 
+			return false;
 		//return (collisionFlags & CollisionFlags.CollidedBelow) != 0;
-		return Physics.Raycast(character.transform.position, -Vector3.up, 0.1f);
 	}
 	
 	Vector3 GetDirection () {
@@ -190,28 +203,32 @@ public class MovementGestion {
 	
 	bool IsGroundedWithTimeout ()
 	{
-		return lastGroundedTime + groundedTimeout > Time.time;
+		return lastGroundedTime + groundedTimeout > Time.fixedTime;
 	}
 	
-	public void jump()
+	public void jump(float dt)
 	{
-			lastJumpButtonTime = Time.time;
+			lastJumpButtonTime = dt;
 			pushjump = true;
 			Debug.Log ("Jump");
 	}
 	
-	public void UpdateMovement(float horizontal, float veritcal)
+	public void UpdateMovement(float horizontal, float _dt)
 	{
+		dt = _dt;
 		ApplyGravity ();
 		ApplyJumping ();
 	//	Did_Hit_Climb ();
 		Apply_Wall_Jump ();
-		Apply_wall_climb ();
+	//	Apply_wall_climb ();
 		Vector3 movement = new Vector3 (
-			horizontal * trotSpeed * Time.deltaTime, 
+			horizontal * trotSpeed, 
 			verticalSpeed, 
 			0);
+		movement *= dt;
 		collisionFlags = character.Move(movement);
+		//character.transform.Translate(movement, Space.World);
+		ApplyGravity ();
 		playerinfo.movement = horizontal;
 	}
 
@@ -247,7 +264,7 @@ public class MovementGestion {
 			if (hit.normal == Vector3.up) {
 				didApplyGravity = false;
 				verticalSpeed = 0.0f;
-				WallClimbCurrentTime = Time.deltaTime;
+				WallClimbCurrentTime = dt;
 			}
 
 
@@ -261,15 +278,15 @@ public class MovementGestion {
 		{
 			if (WallClimbCurrentTime < WallClimbUpDuration)
 			{
-				Vector3 Movement = new Vector3(0, 4 * Time.deltaTime , 0);
+				Vector3 Movement = new Vector3(0, 4 * dt , 0);
 				character.Move(Movement);
-				WallClimbCurrentTime += Time.deltaTime;
+				WallClimbCurrentTime += dt;
 			}
 			else if (WallClimbCurrentTime < WallClimbSideDuratin + WallClimbUpDuration)
 			{
-				Vector3 Movement = new Vector3(-WallJumpDirection * 8 * Time.deltaTime, 0 , 0);
+				Vector3 Movement = new Vector3(-WallJumpDirection * 8 * dt, 0 , 0);
 				character.Move(Movement);
-				WallClimbCurrentTime += Time.deltaTime;
+				WallClimbCurrentTime += dt;
 			}
 			else
 			{
@@ -286,8 +303,8 @@ public class MovementGestion {
 		{
 			if ( WallJumpCurrentTime < WallJumpDuration)
 			{
-				WallJumpCurrentTime += Time.deltaTime;
-				Vector3 Movement = new Vector3(WallJumpDirection * 8 * Time.deltaTime, 0, 0);
+				WallJumpCurrentTime += dt;
+				Vector3 Movement = new Vector3(WallJumpDirection * 8 * dt, 0, 0);
 				character.Move(Movement);
 			}
 			else

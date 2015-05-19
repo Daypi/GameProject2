@@ -10,10 +10,10 @@ public class Controllercall : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		move.UpdateMovement (Input.GetAxis ("Horizontal"), Input.GetAxis ("Vertical"));
+	void FixedUpdate () {
+		move.UpdateMovement (Input.GetAxis ("Horizontal"), Time.fixedDeltaTime);
 		if (Input.GetButtonDown("Jump"))
-		    move.jump();
+		    move.jump(Time.fixedTime);
 		if (Input.GetButtonDown ("Fire1"))
 			this.transform.Find ("mixamo_walk").GetComponent<Animator> ().SetBool ("Shoot", true);
 	}

@@ -27,7 +27,7 @@ public class Weapon_gestion : MonoBehaviour {
 
 	void Start () {
 		weapon = new List<Iweapon>();
-		weapon.Add (new Gun(this.Gun));
+		weapon.Add (new Gun(this.gameObject, GunParticle));
 		weapon.Add (new Shotgun(this.Shotgun));
 		weapon.Add (new Rifle(this.Riffle));
 		playerInfo = this.GetComponent<PlayerInfo>();
@@ -94,13 +94,21 @@ public class Weapon_gestion : MonoBehaviour {
 	{
         if (playerInfo.dead)
             return;
-		switch (current) {
+		/*switch (current) {
 		case 0:
 			Vector3 direction = targetIK.transform.position - currentChild;
 			GameObject tmp = (GameObject)Instantiate(GunParticle, currentChild,  Quaternion.LookRotation(direction));
                 Destroy(tmp, 0.5f);
 			break;
-		}
+		}*/
+		weapon [0].C_shoot ();
+	}
+
+	public void instantiate(GameObject part)
+	{
+		Vector3 direction = targetIK.transform.position - currentChild;
+		GameObject tmp = (GameObject)Instantiate(part, currentChild,  Quaternion.LookRotation(direction));
+		Destroy(tmp, 0.5f);
 	}
 
 	

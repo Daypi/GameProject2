@@ -20,7 +20,7 @@ public class Rifle:  Iweapon  {
 		set {ammo = value;}
 	}
 
-	public void C_shoot(GameObject target, Vector3 child){
+	public void C_shoot(){
 	}
 
 	public void shoot(GameObject tar, Vector3 child){

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using RootMotion.FinalIK;
+using System.Collections.Generic;
 
 public class C_PlayerManager : MonoBehaviour {
 	
@@ -18,6 +19,9 @@ public class C_PlayerManager : MonoBehaviour {
 	public Quaternion serverRot;
 	//public Quaternion serverRot;
 	public float positionErrorThreshold = 0.2f;
+	public float positionErrorThresholdDanger = 2.0f;
+	public CircularBuffer<PosTime> predictionresult;
+	public bool Ismine = false;
     
 	[RPC]
     void setOwner(NetworkPlayer player, string aguid)
@@ -29,10 +33,12 @@ public class C_PlayerManager : MonoBehaviour {
 			//So it just so happens that WE are the player in question,
 			//which means we can enable this control again
 			enabled=true;
+			Ismine = true;
 			this.transform.FindChild("IkAim").GetComponent<NetworkView>().observed = null;
 			move = new MovementGestion(this.GetComponent<CharacterController>(), this.GetComponent<PlayerInfo>());
 		}
 		else {
+			Ismine = false;
 			//Disable a bunch of other things here that are not interesting:
 			if (this.transform.FindChild("Main Camera").GetComponent<Camera>()) {
 				this.transform.FindChild("Main Camera").GetComponent<Camera>().enabled = false;
@@ -65,24 +71,13 @@ public class C_PlayerManager : MonoBehaviour {
 		}
 	}
 
-	/*public void lerpToTarget() {
-		Vector3 distance = Vector3.Distance(transform.position, serverPos);
-		
-		//only correct if the error margin (the distance) is too extreme
-		if (distance >= positionErrorThreshold) {
-			var lerp = ((1 / distance) * speed) / 100;
-			//Debug.Log("Lerp time: " + lerp);
-			transform.position = Vector3.Lerp(transform.position, serverPos, lerp);
-			transform.rotation = Quaternion.Slerp(transform.rotation, serverRot, lerp);
-		}
-	}*/
-
 	// Use this for initialization
 	void Start () {
+		predictionresult = new CircularBuffer<PosTime> (500);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         if (!this.GetComponent<PlayerInfo>().dead && !this.GetComponent<HpBar>().enabled)
             this.GetComponent<HpBar>().enabled = true;
         else if (this.GetComponent<PlayerInfo>().dead && this.GetComponent<HpBar>().enabled)
@@ -104,6 +99,12 @@ public class C_PlayerManager : MonoBehaviour {
 			//Debug.Log("moving");
             //Debug.Log("hp du client :" + this.GetComponent<PlayerManager>().Hp);
             
+			/*if (Input.GetKeyDown("space"))
+			{
+				Debug.Log ("clientJump");
+				GetComponent<NetworkView>().RPC("jump",RPCMode.Server);
+				move.jump(Time.fixedTime);
+			}
 			float motionH  = Input.GetAxis("Horizontal");
 			float motionV  = 0;
 			if ((motionH != lastMotionH) || (motionV != lastMotionV)) {
@@ -113,12 +114,6 @@ public class C_PlayerManager : MonoBehaviour {
 				                Input.GetAxis("Vertical"));
 				lastMotionH = motionH;
 				lastMotionV = motionV;
-			}
-			if (Input.GetKeyDown("space"))
-			{
-				move.jump();
-				Debug.Log ("clientJump");
-				GetComponent<NetworkView>().RPC("jump",RPCMode.Server);
 			}
 			if (Input.GetMouseButtonDown (0))
 			{
@@ -131,7 +126,25 @@ public class C_PlayerManager : MonoBehaviour {
 			{
 				GetComponent<NetworkView>().RPC("changeWeapon",RPCMode.Server, mousewheel);
 			}
-			move.UpdateMovement(motionH, motionV);
+			move.UpdateMovement(motionH, Time.fixedDeltaTime);*/
+
+			Inputstruct inputi = new Inputstruct(0,0,false,false, (float)Network.time);
+			//Debug.Log (Network.time);
+			if (Input.GetKeyDown("space"))
+			{
+				inputi.Jump = true;
+				move.jump(Time.fixedTime);
+			}
+			if (Input.GetButton("Fire1"))
+			{
+				inputi.Shoot = true;
+				GetComponent<Weapon_gestion>().C_Shoot();
+			}
+			inputi.Horizontal = Input.GetAxis("Horizontal");
+			GetComponent<NetworkView>().RPC("updateInput",RPCMode.Server, inputi.Horizontal, inputi.Jump, inputi.ExecuteTime, inputi.Shoot);
+			move.UpdateMovement(inputi.Horizontal, Time.deltaTime);
+			inputi.dt = Time.deltaTime;
+			predictionresult.Enqueue(new PosTime(this.transform.position, inputi.ExecuteTime, inputi));
 		}
 	}
 
@@ -139,12 +152,16 @@ public class C_PlayerManager : MonoBehaviour {
 		var distance = Vector3.Distance(transform.position, serverPos);
 		
 		//only correct if the error margin (the distance) is too extreme
-		if (distance >= positionErrorThreshold) {
+	/*	if (distance >= positionErrorThresholdDanger) {
+			this.transform.position = serverPos;
+		}*/
+		/*if (distance >= positionErrorThreshold) {
 			float lerp = ((1 / distance) * move.trotSpeed) / 100;
 			//Debug.Log("Lerp time: " + lerp);
 			transform.position = Vector3.Lerp(transform.position, serverPos, lerp);
-			transform.rotation = Quaternion.Slerp(transform.rotation, serverRot, lerp);
-		}
+			Debug.Log ("serverpos: " + serverPos + "this pos : " + transform.position);
+		//	transform.rotation = Quaternion.Slerp(transform.rotation, serverRot, lerp);
+		}*/
 	}
 
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 
 public class PlayerManager : MonoBehaviour {
@@ -9,6 +10,8 @@ public class PlayerManager : MonoBehaviour {
 	private float verticalMotion;
 	private PlayerInfo playerInfo;
 	MovementGestion movement;
+	Queue<Inputstruct> inputarray;
+	public CircularBuffer<PosTime> result;
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +19,8 @@ public class PlayerManager : MonoBehaviour {
 			playerInfo = this.GetComponent<PlayerInfo>();
 			controller = this.GetComponent<CharacterController>();
 			movement = new MovementGestion(controller, playerInfo);
+			inputarray = new Queue<Inputstruct>();
+			result = new CircularBuffer<PosTime>(100);
 		}
 	}
 	
@@ -44,8 +49,20 @@ public class PlayerManager : MonoBehaviour {
             //timer avant de respawn
         }
 		//Debug.Log("Processing clients movement commands on server");
-        if (movement != null)
-		    movement.UpdateMovement (horizontalMotion, verticalMotion);
+       /* if (movement != null)
+		    movement.UpdateMovement (horizontalMotion, Time.fixedDeltaTime);*/
+		if (inputarray.Count != 0) {
+			Inputstruct curr = inputarray.Dequeue();
+			if (curr.Jump == true)
+			{
+				Debug.Log ("j appele jump");
+				movement.jump(Time.fixedTime);
+			}
+			if (curr.Shoot == true)
+				this.GetComponent<Weapon_gestion>().shoot();
+			movement.UpdateMovement(curr.Horizontal, Time.fixedDeltaTime);
+			result.Enqueue(new PosTime(this.transform.position, curr.ExecuteTime, curr));
+		}
         //this.GetComponentInChildren<RectTransform>().anchoredPosition = this.transform.localPosition;
 	}
 	
@@ -58,7 +75,14 @@ public class PlayerManager : MonoBehaviour {
 	public void jump()
 	{
 		Debug.Log ("rpcJump");
-		movement.jump ();
+		movement.jump (Time.time);
+	}
+
+
+	[RPC]
+	public void updateInput(float _hor, bool _jump, float time, bool shoot,  NetworkMessageInfo info)
+	{
+		inputarray.Enqueue(new Inputstruct(_hor, 0.0f, _jump, shoot, time));
 	}
 
 

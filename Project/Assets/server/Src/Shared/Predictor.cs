@@ -8,6 +8,7 @@ public class Predictor : MonoBehaviour {
 	
 	private float clientPing ;
 	private NetState[] serverStateBuffer  = new NetState[20];
+	public Inputstruct lastexecuted;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,21 +16,68 @@ public class Predictor : MonoBehaviour {
 
 	public void OnSerializeNetworkView(BitStream stream , NetworkMessageInfo info) {
 		Vector3 pos = observedTransform.position;
-		Quaternion rot = observedTransform.rotation;
+		float time = 0f;
 		
-		if (stream.isWriting) {
+	if (stream.isWriting) {
 			//Debug.Log("Server is writing");
+			PosTime test =  this.GetComponent<PlayerManager>().result.Dequeue();
+			pos = test.position;
+			time = test.time;
 			stream.Serialize(ref pos);
-			stream.Serialize(ref rot);
+			stream.Serialize(ref time);
 		}
 		else {
 			//This code takes care of the local client!
 			stream.Serialize(ref pos);
-			stream.Serialize(ref rot);
-			receiver.serverPos = pos;
-			receiver.serverRot = rot;
+			stream.Serialize(ref time);
+			time = time;
+			pos = pos;
+			if (this.GetComponent<C_PlayerManager>().Ismine == true)
+			{
+			CircularBuffer<PosTime> predictionresult = this.GetComponent<C_PlayerManager>().predictionresult;
+			int i = 0;
+			foreach (PosTime a in predictionresult)
+			{
+
+				if (a.time == time)
+					if (a.position != pos)
+				{
+					var distance = Vector3.Distance(a.position, pos);
+					if (distance >= 0.5f)
+					{
+						break;
+					}
+				}
+					else {
+					break;
+					}
+				i++;
+			}
+			if (i != predictionresult.Count)
+			{
+			while (i >= 1 )
+			{
+				predictionresult.Dequeue();
+				i--;
+			}
+			var _distance = Vector3.Distance(predictionresult.Peek().position , pos);
+			if (_distance >= 0.5f)
+			{
+				this.transform.position = pos;
+				MovementGestion move = new MovementGestion(this.GetComponent<CharacterController>(), this.GetComponent<PlayerInfo>());
+				foreach(PosTime a in predictionresult)
+				{
+					if (a.commande.Jump == true)
+						move.jump(Time.fixedTime);
+					move.UpdateMovement(a.commande.Horizontal, (float)a.commande.dt);
+					a.position = this.transform.position;
+				}
+			}
+			}
+			}
+			else{
 			//Smoothly correct clients position
-			receiver.lerpToTarget();
+			//receiver.lerpToTarget();
 			
 			//Take care of data for interpolating remote objects movements
 			// Shift up the buffer
@@ -37,7 +85,9 @@ public class Predictor : MonoBehaviour {
 				serverStateBuffer[i] = serverStateBuffer[i-1];
 			}
 			//Override the first element with the latest server info
+				Quaternion rot = this.transform.rotation;
 			serverStateBuffer[0] = new NetState(info.timestamp, pos, rot);
+			}
 		}
 	}
 
@@ -45,6 +95,7 @@ public class Predictor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if ((Network.player == receiver.getOwner()) || Network.isServer) {
+			Debug.Log ("Im the player");
 			return; //This is only for remote peers, get off
 		}
 		//client side has !!only the server connected!!
