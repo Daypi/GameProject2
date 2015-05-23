@@ -11,6 +11,7 @@ public class PlayerInfo : MonoBehaviour {
 	public int gun = 0;
     public string playerName = "Grunt";
 	public GameObject mesh;
+	FPSCounter toto = new FPSCounter();
 	// Use this for initialization
 	void Start () {
 		Hp = 100f;
@@ -30,6 +31,7 @@ public class PlayerInfo : MonoBehaviour {
 		int _Facing = 0;
 		bool _dead = false;
 		int _gun = 0;
+		Debug.Log (toto.FPS);
 		if (stream.isWriting) {
 			_Hp = Hp;
 			_State = (int)State;

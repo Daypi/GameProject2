@@ -15,30 +15,39 @@ public class Predictor : MonoBehaviour {
 	}
 
 	public void OnSerializeNetworkView(BitStream stream , NetworkMessageInfo info) {
-		Vector3 pos = observedTransform.position;
-		float time = 0f;
-		
-	if (stream.isWriting) {
-			//Debug.Log("Server is writing");
-			PosTime test =  this.GetComponent<PlayerManager>().result.Dequeue();
-			pos = test.position;
-			time = test.time;
-			stream.Serialize(ref pos);
-			stream.Serialize(ref time);
+		Vector3 pos1 = observedTransform.position;
+		float time1 = 0f;
+		if (stream.isWriting) {
+			PosTime test =  this.GetComponent<PlayerManager>().lastResult;
+			if (test != null)
+			{
+				pos1 = test.position;
+				time1 = test.time;
+				Debug.Log (Network.time - test.ServerTime );
+			}
+
+			stream.Serialize(ref pos1);
+			stream.Serialize(ref time1);
 		}
 		else {
 			//This code takes care of the local client!
-			stream.Serialize(ref pos);
-			stream.Serialize(ref time);
-			time = time;
-			pos = pos;
-			if (this.GetComponent<C_PlayerManager>().Ismine == true)
-			{
+			stream.Serialize(ref pos1);
+			stream.Serialize(ref time1);
+		
+			if (time1 != 0f)
+				Reconciliation(pos1, time1 ,info);
+		}
+	}
+
+	void Reconciliation(Vector3 pos, float time, NetworkMessageInfo info )
+	{
+		if (this.GetComponent<C_PlayerManager>().Ismine == true)
+		{
 			CircularBuffer<PosTime> predictionresult = this.GetComponent<C_PlayerManager>().predictionresult;
 			int i = 0;
 			foreach (PosTime a in predictionresult)
 			{
-
+				
 				if (a.time == time)
 					if (a.position != pos)
 				{
@@ -48,34 +57,34 @@ public class Predictor : MonoBehaviour {
 						break;
 					}
 				}
-					else {
+				else {
 					break;
-					}
+				}
 				i++;
 			}
 			if (i != predictionresult.Count)
 			{
-			while (i >= 1 )
-			{
-				predictionresult.Dequeue();
-				i--;
-			}
-			var _distance = Vector3.Distance(predictionresult.Peek().position , pos);
-			if (_distance >= 0.5f)
-			{
-				this.transform.position = pos;
-				MovementGestion move = new MovementGestion(this.GetComponent<CharacterController>(), this.GetComponent<PlayerInfo>());
-				foreach(PosTime a in predictionresult)
+				while (i >= 1 )
 				{
-					if (a.commande.Jump == true)
-						move.jump(Time.fixedTime);
-					move.UpdateMovement(a.commande.Horizontal, (float)a.commande.dt);
-					a.position = this.transform.position;
+					predictionresult.Dequeue();
+					i--;
+				}
+				var _distance = Vector3.Distance(predictionresult.Peek().position , pos);
+				if (_distance >= 0.5f)
+				{
+					this.transform.position = pos;
+					MovementGestion move = new MovementGestion(this.GetComponent<CharacterController>(), this.GetComponent<PlayerInfo>());
+					foreach(PosTime a in predictionresult)
+					{
+						if (a.commande.Jump == true)
+							move.jump(Time.fixedTime);
+						move.UpdateMovement(a.commande.Horizontal, (float)a.commande.dt);
+						a.position = this.transform.position;
+					}
 				}
 			}
-			}
-			}
-			else{
+		}
+		else{
 			//Smoothly correct clients position
 			//receiver.lerpToTarget();
 			
@@ -85,17 +94,14 @@ public class Predictor : MonoBehaviour {
 				serverStateBuffer[i] = serverStateBuffer[i-1];
 			}
 			//Override the first element with the latest server info
-				Quaternion rot = this.transform.rotation;
-			serverStateBuffer[0] = new NetState(info.timestamp, pos, rot);
-			}
-		}
+			Quaternion rot = this.transform.rotation;
+			serverStateBuffer[0] = new NetState(info.timestamp, pos, rot);		}
 	}
 
 
 	// Update is called once per frame
 	void Update () {
 		if ((Network.player == receiver.getOwner()) || Network.isServer) {
-			Debug.Log ("Im the player");
 			return; //This is only for remote peers, get off
 		}
 		//client side has !!only the server connected!!
@@ -106,11 +112,12 @@ public class Predictor : MonoBehaviour {
 			serverStateBuffer[0] = new NetState(0, 
 			                                    transform.position, 
 			                                    transform.rotation);
-		}
+		} 
 		//Try interpolation if possible. 
 		//If the latest serverStateBuffer timestamp is smaller than the latency
 		//we're not slow enough to really lag out and just extrapolate.
-		if (serverStateBuffer[0].timestamp > interpolationTime) {
+		/*if (serverStateBuffer[0].timestamp > interpolationTime) {
+			Debug.Log ("je passe ladedans");
 			for (int i  = 0; i < serverStateBuffer.Length; i++) {
 				if (serverStateBuffer[i] == null) {
 					continue;
@@ -143,12 +150,12 @@ public class Predictor : MonoBehaviour {
 					return;
 				}
 			}
-		}
+		}*/
 		//so it appears there is no lag through latency.
-		else {
+		//else {
 			NetState latest  = serverStateBuffer[0];	
 			transform.position = Vector3.Lerp(transform.position, latest.pos, 0.5f);
 			transform.rotation = Quaternion.Slerp(transform.rotation, latest.rot, 0.5f);
-		}
+		//}
 	}
 }

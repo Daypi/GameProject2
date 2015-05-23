@@ -144,7 +144,7 @@ public class C_PlayerManager : MonoBehaviour {
 			GetComponent<NetworkView>().RPC("updateInput",RPCMode.Server, inputi.Horizontal, inputi.Jump, inputi.ExecuteTime, inputi.Shoot);
 			move.UpdateMovement(inputi.Horizontal, Time.deltaTime);
 			inputi.dt = Time.deltaTime;
-			predictionresult.Enqueue(new PosTime(this.transform.position, inputi.ExecuteTime, inputi));
+			predictionresult.Enqueue(new PosTime(this.transform.position, inputi.ExecuteTime, inputi, 0));
 		}
 	}
 
