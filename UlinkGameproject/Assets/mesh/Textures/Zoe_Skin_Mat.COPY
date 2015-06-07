@@ -1,0 +1,49 @@
+Begin Object Class=Material Name="Zoe_Skin_Mat"
+   Begin Object Class=MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_70"
+   End Object
+   Begin Object Class=MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_71"
+   End Object
+   Begin Object Class=MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_72"
+   End Object
+   Begin Object Class=SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_20"
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_70"
+      Texture=Texture2D'/Game/MixamoAnimPack/Mixamo_Zoe/Materials/Zoe_Clothes_Mask.Zoe_Clothes_Mask'
+      MaterialExpressionEditorX=-304
+      MaterialExpressionEditorY=96
+      MaterialExpressionGuid=2F189727934F666724B1DDAB9E7BBD33
+      Material=Material'Zoe_Skin_Mat'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_71"
+      Texture=Texture2D'/Game/MixamoAnimPack/Mixamo_Zoe/Materials/Zoe_Clothes_COL.Zoe_Clothes_COL'
+      MaterialExpressionEditorX=-304
+      MaterialExpressionEditorY=-112
+      MaterialExpressionGuid=1693B49A0041069433B43899A93F61F4
+      Material=Material'Zoe_Skin_Mat'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_72"
+      Texture=Texture2D'/Game/MixamoAnimPack/Mixamo_Zoe/Materials/Zoe_Clothes_NM.Zoe_Clothes_NM'
+      SamplerType=SAMPLERTYPE_Normal
+      MaterialExpressionEditorX=-288
+      MaterialExpressionEditorY=336
+      MaterialExpressionGuid=CADB22947A4ACDC33975E98766376C9F
+      Material=Material'Zoe_Skin_Mat'
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_20"
+   End Object
+   BaseColor=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_71',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+   Metallic=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_70',OutputIndex=3,Mask=1,MaskB=1)
+   Specular=(OutputIndex=1,Mask=1,MaskR=1)
+   Roughness=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_70',OutputIndex=2,Mask=1,MaskG=1)
+   Normal=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_72',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+   bUsedWithSkeletalMesh=True
+   Expressions(0)=MaterialExpressionTextureSample'MaterialExpressionTextureSample_71'
+   Expressions(1)=MaterialExpressionTextureSample'MaterialExpressionTextureSample_70'
+   Expressions(2)=MaterialExpressionTextureSample'MaterialExpressionTextureSample_72'
+   StateId=381970B54546E3B7F2553C9BADE69E7E
+   ReferencedTextureGuids(0)=1491688046AD17EC9316BFB6A20395BD
+   ReferencedTextureGuids(1)=268079114C3254E72179D7A01A3FE498
+   ReferencedTextureGuids(2)=854A3A9F44310F44252AC7B47EB6A85A
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_20'
+   LightingGuid=21FE36A9410B1501A9BA1FA909CD20F6
+End Object

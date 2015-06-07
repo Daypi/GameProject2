@@ -1,0 +1,63 @@
+Begin Object Class=Material Name="Kachujin_Mat"
+   Begin Object Class=MaterialExpressionLinearInterpolate Name="MaterialExpressionLinearInterpolate_4"
+   End Object
+   Begin Object Class=MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_42"
+   End Object
+   Begin Object Class=MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_43"
+   End Object
+   Begin Object Class=MaterialExpressionTextureSample Name="MaterialExpressionTextureSample_44"
+   End Object
+   Begin Object Class=SceneThumbnailInfoWithPrimitive Name="SceneThumbnailInfoWithPrimitive_12"
+   End Object
+   Begin Object Name="MaterialExpressionLinearInterpolate_4"
+      Alpha=(Expression=MaterialExpressionTextureSample'Kachujin_Mat:MaterialExpressionTextureSample_44',OutputIndex=2,Mask=1,MaskG=1)
+      ConstA=0.330000
+      MaterialExpressionEditorX=-240
+      MaterialExpressionEditorY=128
+      MaterialExpressionGuid=CFD6EF3D3345EF09FE593BB8831F05D0
+      Material=Material'Kachujin_Mat'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_42"
+      Texture=Texture2D'/Game/MixamoAnimPack/Mixamo_Kachujin/Materials/Kachujin_diffuse.Kachujin_diffuse'
+      MaterialExpressionEditorX=-304
+      MaterialExpressionEditorY=-144
+      MaterialExpressionGuid=D576B10387450E6E971DB594A9FC25B5
+      Material=Material'Kachujin_Mat'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_43"
+      Texture=Texture2D'/Game/MixamoAnimPack/Mixamo_Kachujin/Materials/Kachujin_normal.Kachujin_normal'
+      SamplerType=SAMPLERTYPE_Normal
+      MaterialExpressionEditorX=-304
+      MaterialExpressionEditorY=464
+      MaterialExpressionGuid=3C0DFAD709441A89AF46DFA2FB5B7B3B
+      Material=Material'Kachujin_Mat'
+   End Object
+   Begin Object Name="MaterialExpressionTextureSample_44"
+      Texture=Texture2D'/Game/MixamoAnimPack/Mixamo_Kachujin/Materials/Kachujin_Mask.Kachujin_Mask'
+      MaterialExpressionEditorX=-592
+      MaterialExpressionEditorY=48
+      MaterialExpressionGuid=D145E3298141243E56BB9E90B31930E8
+      Material=Material'Kachujin_Mat'
+   End Object
+   Begin Object Name="SceneThumbnailInfoWithPrimitive_12"
+   End Object
+   BaseColor=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_42',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+   Metallic=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_44',OutputIndex=3,Mask=1,MaskB=1)
+   Specular=(OutputIndex=1,Mask=1,MaskR=1)
+   Roughness=(Expression=MaterialExpressionLinearInterpolate'MaterialExpressionLinearInterpolate_4')
+   Normal=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_43',Mask=1,MaskR=1,MaskG=1,MaskB=1)
+   OpacityMask=(Expression=MaterialExpressionTextureSample'MaterialExpressionTextureSample_42',OutputIndex=4,Mask=1,MaskA=1)
+   BlendMode=BLEND_Masked
+   bUsedWithSkeletalMesh=True
+   Expressions(0)=MaterialExpressionTextureSample'MaterialExpressionTextureSample_42'
+   Expressions(1)=MaterialExpressionTextureSample'MaterialExpressionTextureSample_44'
+   Expressions(2)=MaterialExpressionTextureSample'MaterialExpressionTextureSample_43'
+   Expressions(3)=MaterialExpressionLinearInterpolate'MaterialExpressionLinearInterpolate_4'
+   bIsMasked=True
+   StateId=36447B944FEB3C9E259CDC8C6F2EC2ED
+   ReferencedTextureGuids(0)=7959D25D48CA735C42EF6DB41629D5AF
+   ReferencedTextureGuids(1)=8015BA02433236E4184DA2987149EA8A
+   ReferencedTextureGuids(2)=E3D112F243E16ED53C426EAF8C85B889
+   ThumbnailInfo=SceneThumbnailInfoWithPrimitive'SceneThumbnailInfoWithPrimitive_12'
+   LightingGuid=CB81675041D53F5A237E8A8EB6D8F2D7
+End Object
