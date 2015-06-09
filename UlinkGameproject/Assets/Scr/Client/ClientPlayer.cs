@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -23,6 +24,13 @@ public class ClientPlayer : uLink.MonoBehaviour {
 		motor = new CharacterMotor(this.GetComponent<CharacterController>(), anim);
 		Physics.IgnoreLayerCollision(8, 8);
 	}
+
+    [RPC]
+    void playerKilled(string victimname, string killername, string weapon)
+    {
+        string killLine = "\n" + victimname + " was killed by " + killername + " using a " + "weapon";
+        GameObject.Find("KillLog").GetComponent<Text>().text += killLine;
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
