@@ -125,8 +125,10 @@ public class Predictor : uLink.MonoBehaviour {
 		} 
 		else 
 		{ 
+			string name = this.GetComponent<ClientPlayer>().PlayerState.nickname ;
 			result = stream.Read<StructCodec.ResultStruct>();
 			this.GetComponent<ClientPlayer>().PlayerState = stream.Read<StructCodec.PlayerStateStruct>();
+			this.GetComponent<ClientPlayer>().PlayerState.nickname = name;
 			Reconciliation(result);
 		} 
 	}
@@ -179,8 +181,10 @@ public class Predictor : uLink.MonoBehaviour {
 		} 
 		else 
 		{
+			string name = this.GetComponent<ProxyPlayer>().PlayerState.nickname ;
 			result = stream.Read<StructCodec.ResultStruct>();
 			this.GetComponent<ProxyPlayer>().PlayerState = stream.Read<StructCodec.PlayerStateStruct>();
+			this.GetComponent<ProxyPlayer>().PlayerState.nickname = name;
 			for (int i = proxyStates.Length - 1; i >= 1; i--)
 			{
 				proxyStates[i] = proxyStates[i - 1];

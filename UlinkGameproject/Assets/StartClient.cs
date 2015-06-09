@@ -463,7 +463,6 @@ public class StartClient : uLink.MonoBehaviour
 	}
 
 	void OnLevelWasLoaded(int level) {
-		Debug.Log (Application.loadedLevelName);
 		if (Application.loadedLevelName == "CasteWorldClient")
 			uLink.NetworkView.Get (this).RPC ("Ready", uLink.RPCMode.Server);
 	}

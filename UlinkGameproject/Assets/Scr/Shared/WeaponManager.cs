@@ -81,7 +81,6 @@ public class WeaponManager : uLink.MonoBehaviour {
 		case 0:
 			this.aimik.enabled = true;
 			Origin = Gun.transform.FindChild("Ik").transform.position;
-			Debug.Log (this.aimik);
 			this.aimik.solver.transform = Gun.transform.FindChild("Ik").transform;
 			this.aimik.solver.axis = new Vector3(0,1,0);
 			Gun.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = true;
