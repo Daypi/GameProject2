@@ -34,7 +34,7 @@ public class Gun : Iweapon {
 					Collider TargetHit = hit.collider;
 					Debug.Log (TargetHit);
 					if (TargetHit.tag == "Ghostcollider")
-						TargetHit.GetComponentInParent<ServerPLayer> ().Life (damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Gun");
+						TargetHit.GetComponentInParent<ServerPLayer> ().Life (damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Gun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
 					ammo--;
 				}
 			}

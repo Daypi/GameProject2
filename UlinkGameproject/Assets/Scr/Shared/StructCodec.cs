@@ -77,11 +77,13 @@ public class InputStruct
 
 	public class PlayerStateStruct
 	{
-		public int life;
+		public int life = 0;
 		public bool isdead = false;
 		public string nickname = "";
-		public bool facing;
-		public int weapon;
+		public bool facing = false;
+		public int weapon = 0;
+		public int NbDead = 0;
+		public int NbKill = 0;
 		public static void WriteMyClass(uLink.BitStream stream, object value,
 		                                params object[] codecOptions)
 		{
@@ -90,6 +92,8 @@ public class InputStruct
 			stream.Write<bool>(myObj.isdead);
 			//stream.Write<bool> (myObj.facing);
 			stream.Write<int> (myObj.weapon);
+			stream.Write<int> (myObj.NbDead);
+			stream.Write<int> (myObj.NbKill);
 		}
 		
 		public static object ReadMyClass(uLink.BitStream stream,
@@ -100,6 +104,8 @@ public class InputStruct
 			myObj.isdead = stream.Read<bool>();
 			//myObj.facing = stream.Read<bool>();
 			myObj.weapon = stream.Read<int>();
+			myObj.NbDead = stream.Read<int>();
+			myObj.NbKill = stream.Read<int>();
 			return myObj;
 		}
 	}

@@ -23,12 +23,14 @@ public class ServerPLayer : uLink.MonoBehaviour {
 		PlayerState.nickname = (string)info.networkView.initialData.ReadObject(typeof(string).TypeHandle);
 	} 
 
-	public void Life(int value, string shootername, string weaponname)
+	public void Life(int value, string shootername, string weaponname, StructCodec.PlayerStateStruct shooter)
 	{
 		this.PlayerState.life += value;
         
         if (this.PlayerState.life <= 0)
         {
+			shooter.NbKill += 1;
+			this.PlayerState.NbDead -= 1;
             string killstring = "";
             this.PlayerState.isdead = true;
             killstring = "\n" + this.PlayerState.nickname + " was killed by " + shootername + " using a " + weaponname;

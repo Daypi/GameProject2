@@ -120,8 +120,9 @@ public class StartServer : uLink.MonoBehaviour
 	void uLink_OnServerInitialized()
 	{
 		Debug.Log("Server successfully started on port " + uLink.Network.listenPort);
-		
-		if (registerHost) uLink.MasterServer.RegisterHost();
+
+
+		if (registerHost) uLink.MasterServer.RegisterHost("Satang", "Satang1" );
 	}
 
 	void uLink_OnPlayerDisconnected(uLink.NetworkPlayer player)

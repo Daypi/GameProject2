@@ -34,7 +34,7 @@ public class ShotGun : Iweapon {
 					Collider TargetHit = hit.collider;
 					Debug.Log (TargetHit);
 					if (TargetHit.tag == "Ghostcollider")
-                        TargetHit.GetComponentInParent<ServerPLayer>().Life(damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Shotgun");
+						TargetHit.GetComponentInParent<ServerPLayer>().Life(damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Shotgun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
 					ammo--;
 				}
 			}
