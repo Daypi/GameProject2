@@ -76,18 +76,7 @@ public class PlayerManager : MonoBehaviour {
 		}
         //this.GetComponentInChildren<RectTransform>().anchoredPosition = this.transform.localPosition;
 	}
-	
 
-	/**
-     * The client calls this to notify the server about Jump button push
-     * @param
-     */
-	[RPC]
-	public void jump()
-	{
-		Debug.Log ("rpcJump");
-		movement.jump (Time.time);
-	}
 
 
 	[RPC]
@@ -96,21 +85,7 @@ public class PlayerManager : MonoBehaviour {
 		inputarray.Enqueue(new Inputstruct(_hor, 0.0f, _jump, shoot, time));
 	}
 
-
-	/**
-     * The client calls this to notify the server about new motion data
-     * @param	motion
-     */
-	[RPC]
-	public void updateClientMotion(float hor, float vert)
-	{
-		horizontalMotion = hor;
-		verticalMotion = vert;
-		Vector3 position = this.transform.position;
-		position.z = 0;
-		this.transform.position = position;
-	}
-
+	
     public void takeDamage(int damage)
     {
 		playerInfo.Hp -= damage;

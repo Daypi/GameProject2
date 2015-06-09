@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: b6514755f9868d8479e26d7ca3d69431
+PluginImporter:
+  serializedVersion: 1
+  iconMap:
+    uLink.EnterLicenseKey: {fileID: 2800000, guid: 3e69dca290c77d24ebc2d003067026fe,
+      type: 3}
+    uLink.InternalHelper: {fileID: 2800000, guid: 3e69dca290c77d24ebc2d003067026fe,
+      type: 3}
+    uLink.NetworkP2P: {fileID: 2800000, guid: 3e69dca290c77d24ebc2d003067026fe, type: 3}
+    uLink.NetworkView: {fileID: 2800000, guid: 3e69dca290c77d24ebc2d003067026fe, type: 3}
+    uLink.RegisterPrefabs: {fileID: 2800000, guid: 3e69dca290c77d24ebc2d003067026fe,
+      type: 3}
+    uLink.ServerAuthentication: {fileID: 2800000, guid: 3e69dca290c77d24ebc2d003067026fe,
+      type: 3}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

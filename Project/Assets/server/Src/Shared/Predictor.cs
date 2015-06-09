@@ -23,7 +23,6 @@ public class Predictor : MonoBehaviour {
 			{
 				pos1 = test.position;
 				time1 = test.time;
-				Debug.Log (Network.time - test.ServerTime );
 			}
 
 			stream.Serialize(ref pos1);
