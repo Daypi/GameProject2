@@ -11,7 +11,7 @@ public class ProxyPlayer : MonoBehaviour {
 
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info ) { 
 		System.RuntimeTypeHandle toto = new System.RuntimeTypeHandle();
-		PlayerState.nickname = (string)info.networkView.initialData.ReadObject(typeof(string).TypeHandle);
+        PlayerState.nickname = (string)info.networkView.initialData.Read<string>();
 	} 
 
 	// Update is called once per frame

@@ -24,6 +24,9 @@ public class ServerPLayer : uLink.MonoBehaviour {
 	public void Life(int value)
 	{
 		this.PlayerState.life += value;
+        if (this.PlayerState.life <= 0)
+            this.PlayerState.isdead = true;
+
 		Debug.Log (PlayerState.life);
 	}
 

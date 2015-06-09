@@ -21,6 +21,28 @@ public class Predictor : uLink.MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        float hp = 100;
+        bool dead = false;
+        string pname = "Player";
+        if (!uLink.Network.isServer)
+        {
+            if (this.networkView.isOwner)
+            {
+                hp = this.GetComponent<ClientPlayer>().PlayerState.life;
+                dead = this.GetComponent<ClientPlayer>().PlayerState.isdead;
+                pname = this.GetComponent<ClientPlayer>().PlayerState.nickname;
+            }
+            else if (this.networkView.isProxy)
+            {
+                hp = this.GetComponent<ProxyPlayer>().PlayerState.life;
+                dead = this.GetComponent<ProxyPlayer>().PlayerState.isdead;
+                pname = this.GetComponent<ProxyPlayer>().PlayerState.nickname;
+            }   
+            this.GetComponent<HpBar>().scale = hp / 100.0f;
+            this.GetComponent<HpBar>().enabled = !dead;
+            this.GetComponent<HpBar>().pname = pname;
+            
+        }
 		if (uLink.Network.isAuthoritativeServer && uLink.Network.isServerOrCellServer)
 			return;
 		if (uLink.Network.isAuthoritativeServer && !networkView.isMine) {

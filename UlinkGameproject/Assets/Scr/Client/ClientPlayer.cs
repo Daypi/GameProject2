@@ -13,7 +13,8 @@ public class ClientPlayer : uLink.MonoBehaviour {
 
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info ) { 
 		System.RuntimeTypeHandle toto = new System.RuntimeTypeHandle();
-		PlayerState.nickname = (string)info.networkView.initialData.ReadObject(typeof(string).TypeHandle);
+        PlayerState.nickname = (string)info.networkView.initialData.Read<string>();
+        Debug.Log("nick = " + PlayerState.nickname);
 	} 
 
 	// Use this for initialization
