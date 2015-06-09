@@ -18,6 +18,15 @@ public class ServerPLayer : uLink.MonoBehaviour {
 		PlayerState.isdead = false;
 	}
 
+	void respawn()
+	{
+		int selectedId;
+		GameObject[] respawns = GameObject.FindGameObjectsWithTag("Respawn");
+		selectedId = Random.Range(0, respawns.Length);
+		this.transform.position = respawns[selectedId].transform.position;
+		PlayerState.isdead = false;
+	}
+
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info ) { 
 		System.RuntimeTypeHandle toto = new System.RuntimeTypeHandle();
 		PlayerState.nickname = (string)info.networkView.initialData.ReadObject(typeof(string).TypeHandle);
@@ -39,8 +48,8 @@ public class ServerPLayer : uLink.MonoBehaviour {
             {
                 predi.killmessage = killstring;
             }
+			respawn();
         }
-		Debug.Log (PlayerState.life);
 	}
 
 	// Update is called once per frame

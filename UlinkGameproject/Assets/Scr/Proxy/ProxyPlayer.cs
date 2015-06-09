@@ -14,6 +14,14 @@ public class ProxyPlayer : MonoBehaviour {
         PlayerState.nickname = (string)info.networkView.initialData.Read<string>();
 	} 
 
+	[RPC]
+	void Shoot(bool shoot)
+	{
+		object[] tempStorage = new object[2];
+		tempStorage [0] = 0.0;
+		tempStorage [1] = shoot;
+		SendMessage("Shoot", tempStorage);
+	}
 	// Update is called once per frame
 	void Update () {
 		if (this.transform.FindChild ("Aim").transform.localPosition.x < 0) {
