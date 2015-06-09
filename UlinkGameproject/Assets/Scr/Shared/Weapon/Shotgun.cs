@@ -4,9 +4,9 @@ using System.Collections;
 public class ShotGun : Iweapon {
 	private float fireDelay;
 	private float timeSinceLastShoot;
-	private int initialammo = 3;
-	private int ammo = 3;
-	private int damage = -20;
+	private int initialammo = 6;
+	private int ammo = 6;
+	private int damage = -2;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
@@ -44,14 +44,18 @@ public class ShotGun : Iweapon {
 
 	public void ServerReload()
 	{
-		isreaload = true;
-		timeSinceReload = Time.time;
+		if (isreaload != true && ammo < initialammo) {
+			isreaload = true;
+			timeSinceReload = Time.time;
+		}
 	}
 
 	public void ClientReload()
 	{
-		isreaload = true;
-		timeSinceReload = Time.time;
+		if (isreaload != true && ammo < initialammo) {
+			isreaload = true;
+			timeSinceReload = Time.time;
+		}
 	}
 
 	public void ProxyReload()

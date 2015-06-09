@@ -4,9 +4,9 @@ using System.Collections;
 public class MachinGun : Iweapon {
 	private float fireDelay;
 	private float timeSinceLastShoot;
-	private int initialammo = 10;
-	private int ammo = 10;
-	private int damage = -20;
+	private int initialammo = 50;
+	private int ammo = 50;
+	private int damage = -3;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
@@ -44,14 +44,18 @@ public class MachinGun : Iweapon {
 
 	public void ServerReload()
 	{
-		isreaload = true;
-		timeSinceReload = Time.time;
+		if (isreaload != true) {
+			isreaload = true;
+			timeSinceReload = Time.time;
+		}
 	}
 
 	public void ClientReload()
 	{
-		isreaload = true;
-		timeSinceReload = Time.time;
+		if (isreaload != true) {
+			isreaload = true;
+			timeSinceReload = Time.time;
+		}
 	}
 
 	public void ProxyReload()

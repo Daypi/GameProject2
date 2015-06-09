@@ -6,7 +6,7 @@ public class Gun : Iweapon {
 	private float timeSinceLastShoot;
 	private int initialammo = 10;
 	private int ammo = 10;
-	private int damage = -20;
+	private int damage = -5;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
@@ -44,14 +44,18 @@ public class Gun : Iweapon {
 
 	public void ServerReload()
 	{
-		isreaload = true;
-		timeSinceReload = Time.time;
+		if (isreaload != true) {
+			isreaload = true;
+			timeSinceReload = Time.time;
+		}
 	}
 
 	public void ClientReload()
 	{
-		isreaload = true;
-		timeSinceReload = Time.time;
+		if (isreaload != true) {
+			isreaload = true;
+			timeSinceReload = Time.time;
+		}
 	}
 
 	public void ProxyReload()
