@@ -25,7 +25,7 @@ public class MachinGun : Iweapon {
 			return;
 		}
 		if (shoot == true) {
-			if (Time.time > fireDelay + timeSinceLastShoot && ammo != 0) {
+			if (Time.time > fireDelay + timeSinceLastShoot){ //&& ammo != 0) {
 				timeSinceLastShoot = Time.time;
 				Vector3 direction = (target - origin).normalized;
 				Debug.DrawRay (origin, direction, Color.red, 5.0f);
