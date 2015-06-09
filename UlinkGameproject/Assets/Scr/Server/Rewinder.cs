@@ -21,20 +21,19 @@ public class Rewinder : MonoBehaviour {
 		Vector3 pos = Vector3.up;
 		foreach (Rewinder rewind in rewinders) {
 			foreach (RewinderStruct RS in rewind.Positions) {
-				if (RS.NetworkTime >= time && RS.NetworkTime <= (RS.NetworkTime + 0.02))
+				if (RS.NetworkTime >= time && RS.NetworkTime <= (time + 0.1))
+				{
 					pos = RS.position;
-				if (rewind.GhostCollider != this.GhostCollider)
+				}
+			if (rewind.GhostCollider != this.GhostCollider)
 					rewind.GhostCollider.transform.position = pos;
 			}
 		}
 		bool ret = Physics.Raycast (position, Direction, out hit);
 		foreach (Rewinder rewind in rewinders) {
-			foreach (RewinderStruct RS in rewind.Positions) {
-				if (RS.NetworkTime >= time && RS.NetworkTime <= (RS.NetworkTime + 0.02))
-					pos = RS.position;
+			return ret;
 				rewind.GhostCollider.transform.position = new Vector3(0, 0, -100);
 			}
-		}
 		return ret;
 	}
 
@@ -55,7 +54,7 @@ public class Rewinder : MonoBehaviour {
 			foreach (RewinderStruct RS in rewind.Positions) {
 				if (RS.NetworkTime >= time && RS.NetworkTime <= (RS.NetworkTime + 0.02))
 					pos = RS.position;
-				rewind.GhostCollider.transform.position = new Vector3(0, 0, -100);
+				//rewind.GhostCollider.transform.position = new Vector3(0, 0, -100);
 			}
 		}
 		return ret;
