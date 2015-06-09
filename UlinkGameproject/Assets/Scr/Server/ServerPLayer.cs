@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public class ServerPLayer : uLink.MonoBehaviour {
 	public StructCodec.ResultStruct LastResult;
 	Queue<StructCodec.InputStruct> inputarray;
+    public CircularBuffer<string> killStrings;
 	CharacterMotor Motor;
 	public StructCodec.PlayerStateStruct PlayerState = new StructCodec.PlayerStateStruct();
 	// Use this for initialization
 	void Start () {
 		Motor = new CharacterMotor (this.GetComponent<CharacterController> (), this.transform.FindChild("Skeleton").GetComponent<Animator>());
 		inputarray = new Queue<StructCodec.InputStruct> ();
+        killStrings = new CircularBuffer<string>(5);
 		LastResult = new StructCodec.ResultStruct ();
 		PlayerState.life = 100;
 		PlayerState.isdead = false;
@@ -24,10 +26,17 @@ public class ServerPLayer : uLink.MonoBehaviour {
 	public void Life(int value, string shootername, string weaponname)
 	{
 		this.PlayerState.life += value;
+        
         if (this.PlayerState.life <= 0)
         {
+            string killstring = "";
             this.PlayerState.isdead = true;
-            this.networkView.RPC("playerKilled", uLink.RPCMode.Owner, this.PlayerState.nickname, shootername, weaponname);
+            killstring = "\n" + this.PlayerState.nickname + " was killed by " + shootername + " using a " + weaponname;
+            Predictor[] predictors = FindObjectsOfType(typeof (Predictor)) as Predictor[];
+            foreach (var predi in predictors)
+            {
+                predi.killmessage = killstring;
+            }
         }
 		Debug.Log (PlayerState.life);
 	}

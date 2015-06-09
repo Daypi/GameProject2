@@ -9,6 +9,7 @@ public class Predictor : uLink.MonoBehaviour {
 	public double extrapolationLimit = 0.5;
 	private double serverLastTimestamp = 0;
 	private int proxyStateCount;
+    public string killmessage = "";
 	// Use this for initialization
 	void Start () {
 	
@@ -21,6 +22,7 @@ public class Predictor : uLink.MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        //killmessage = "";
         float hp = 100;
         bool dead = false;
         string pname = "Player";
@@ -122,6 +124,8 @@ public class Predictor : uLink.MonoBehaviour {
 			playerstate = this.GetComponent<ServerPLayer>().PlayerState;
 			stream.Write(result);
 			stream.Write (playerstate);
+            stream.Write(killmessage);
+            killmessage = "";
 		} 
 		else 
 		{ 
@@ -129,6 +133,9 @@ public class Predictor : uLink.MonoBehaviour {
 			result = stream.Read<StructCodec.ResultStruct>();
 			this.GetComponent<ClientPlayer>().PlayerState = stream.Read<StructCodec.PlayerStateStruct>();
 			this.GetComponent<ClientPlayer>().PlayerState.nickname = name;
+            killmessage = stream.Read<string>();
+            if (killmessage != "")
+                GameObject.Find("KillLog").GetComponent<KillLog>().kills.Enqueue(killmessage);
 			Reconciliation(result);
 		} 
 	}

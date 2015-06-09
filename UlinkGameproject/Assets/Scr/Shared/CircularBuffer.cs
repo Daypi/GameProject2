@@ -26,6 +26,11 @@
 			_buffer = new T[bufferSize];
 		}
 		
+        public void Dequeue()
+        {
+            
+        }
+
 		public void Add(T item)
 		{
 			_latestIndex++;
