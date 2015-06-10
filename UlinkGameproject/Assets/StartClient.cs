@@ -25,6 +25,7 @@ public class StartClient : uLink.MonoBehaviour
 	private double CurrentGameTimer;
 	public Texture2D iconFavorite;
 	public Texture2D iconNonfavorite;
+	public string levelname ;
 
 	public UnityEngine.MonoBehaviour[] enableWhenGUI;
 	public UnityEngine.MonoBehaviour[] disableWhenGUI;
@@ -53,6 +54,7 @@ public class StartClient : uLink.MonoBehaviour
 
 	public bool lockCursor = true;
 	public bool hideCursor = true;
+	private bool caca = false;
 
 	void Awake()
 	{
@@ -104,9 +106,12 @@ public class StartClient : uLink.MonoBehaviour
 		if (uLink.Network.lastError != uLink.NetworkConnectionError.NoError ||
 			uLink.Network.status != uLink.NetworkStatus.Disconnected)
 		{
-			GUILayout.BeginVertical("Box", GUILayout.Width(BUSY_WIDTH));
-			BusyGUI();
-			GUILayout.EndVertical();
+			if (caca == false)
+			{
+				GUILayout.BeginVertical("Box", GUILayout.Width(BUSY_WIDTH));
+				BusyGUI();
+				GUILayout.EndVertical();
+			}
 		}
 		else if (isQuickMode)
 		{
@@ -158,6 +163,8 @@ public class StartClient : uLink.MonoBehaviour
 					{
 						EnableCursor(true);
 					}
+					caca = true;
+					uLink.Network.lastError = uLink.NetworkConnectionError.NoError;
 				}
 			}
 			else
@@ -478,11 +485,17 @@ public class StartClient : uLink.MonoBehaviour
 		Application.LoadLevel ("SelectCharacterinter");
 	}
 
+	[RPC]
+	void LevelName (String level)
+	{
+		levelname = level;
+	}
+
 	void OnLevelWasLoaded(int level) {
-		if (Application.loadedLevelName == "CasteWorldClient")
-			uLink.NetworkView.Get (this).RPC ("Ready", uLink.RPCMode.Server);
-		else if (Application.loadedLevelName == "SelectCharacterinter")
+		if (Application.loadedLevelName == "SelectCharacterinter")
 			uLink.NetworkView.Get (this).RPC ("ReadyInter", uLink.RPCMode.Server);
+		else if (Application.loadedLevelName == levelname + "Client")
+			uLink.NetworkView.Get (this).RPC ("Ready", uLink.RPCMode.Server);
 	}	
 }
 
