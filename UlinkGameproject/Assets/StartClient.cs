@@ -53,6 +53,7 @@ public class StartClient : uLink.MonoBehaviour
 
 	public bool lockCursor = true;
 	public bool hideCursor = true;
+	private bool caca = false;
 
 	void Awake()
 	{
@@ -104,9 +105,12 @@ public class StartClient : uLink.MonoBehaviour
 		if (uLink.Network.lastError != uLink.NetworkConnectionError.NoError ||
 			uLink.Network.status != uLink.NetworkStatus.Disconnected)
 		{
-			GUILayout.BeginVertical("Box", GUILayout.Width(BUSY_WIDTH));
-			BusyGUI();
-			GUILayout.EndVertical();
+			if (caca == false)
+			{
+				GUILayout.BeginVertical("Box", GUILayout.Width(BUSY_WIDTH));
+				BusyGUI();
+				GUILayout.EndVertical();
+			}
 		}
 		else if (isQuickMode)
 		{
@@ -158,6 +162,8 @@ public class StartClient : uLink.MonoBehaviour
 					{
 						EnableCursor(true);
 					}
+					caca = true;
+					uLink.Network.lastError = uLink.NetworkConnectionError.NoError;
 				}
 			}
 			else

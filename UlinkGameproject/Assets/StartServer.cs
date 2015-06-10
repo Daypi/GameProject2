@@ -27,6 +27,7 @@ public class StartServer : uLink.MonoBehaviour
 
 	private bool isGameStart = false;
 	private double elapsedTime = 0;
+	public List<string> Names;
 	void Update()
 	{
 		if (isGameStart) {
