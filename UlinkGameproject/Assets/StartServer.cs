@@ -157,7 +157,11 @@ public class StartServer : uLink.MonoBehaviour
 	{
 		Debug.Log("Server successfully started on port " + uLink.Network.listenPort);
 
-		if (registerHost) uLink.MasterServer.RegisterHost("Satang", "Satang1" );
+		uLink.MasterServer.gameName = "Satang";
+		uLink.MasterServer.gameMode = "Satang";
+		uLink.MasterServer.ipAddress = "127.0.0.1";
+		uLink.MasterServer.port = port;
+		if (registerHost) uLink.MasterServer.RegisterHost("Satang", "Satang");
 	}
 
 	void uLink_OnPlayerDisconnected(uLink.NetworkPlayer player)
