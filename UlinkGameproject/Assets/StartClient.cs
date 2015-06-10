@@ -289,9 +289,9 @@ public class StartClient : uLink.MonoBehaviour
 		uLink.HostData[] hosts = null;
 		switch (selectedGrid)
 		{
-			case 0: hosts = uLink.MasterServer.PollAndRequestHostList(gameType, 2); break;
+			//case 0: hosts = uLink.MasterServer.PollAndRequestHostList(gameType, 2); break;
 			case 1: hosts = uLink.MasterServer.PollAndDiscoverLocalHosts(gameType, quickPort, 2); break;
-			case 2: hosts = uLink.MasterServer.PollAndRequestKnownHosts(2); break;
+			//case 2: hosts = uLink.MasterServer.PollAndRequestKnownHosts(2); break;
 		}
 
 		if (hosts != null && hosts.Length > 0)

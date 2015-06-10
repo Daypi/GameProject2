@@ -149,7 +149,7 @@ public class StartServer : uLink.MonoBehaviour
 	
 		uLink.Network.InitializeServer(maxConnections, port);
 		CurrentGameTimer = GameTimer;
-		int level = UnityEngine.Random.Range (0, 2);
+		int level = UnityEngine.Random.Range (0, 3);
 		LevelName = Names [level];
 	}
 
