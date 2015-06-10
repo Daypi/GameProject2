@@ -121,7 +121,6 @@ public class StartServer : uLink.MonoBehaviour
 	{
 		Debug.Log("Server successfully started on port " + uLink.Network.listenPort);
 
-
 		if (registerHost) uLink.MasterServer.RegisterHost("Satang", "Satang1" );
 	}
 

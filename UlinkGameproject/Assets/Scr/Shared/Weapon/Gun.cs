@@ -39,8 +39,7 @@ public class Gun : Iweapon {
 
 				}
 				ammo--;
-				uLink.NetworkView net =  Owner.uLinkNetworkView();
-				net.RPC("Shoot", uLink.RPCMode.AllExceptOwner);
+				Owner.GetComponent<ServerPLayer>().SendProxyShoot();
 			}
 		}
 		lasstShoot = shoot;

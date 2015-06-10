@@ -37,8 +37,7 @@ public class MachinGun : Iweapon {
 						TargetHit.GetComponentInParent<ServerPLayer>().Life(damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "MachineGun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
 				}
 				ammo--;
-				uLink.NetworkView net =  Owner.uLinkNetworkView();
-				net.RPC("Shoot", uLink.RPCMode.AllExceptOwner);
+				Owner.GetComponent<ServerPLayer>().SendProxyShoot();
 			}
 		}
 		lasstShoot = shoot;

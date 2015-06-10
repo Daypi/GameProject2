@@ -29,12 +29,17 @@ public class ClientPlayer : uLink.MonoBehaviour {
 	void FixedUpdate () {
 		StructCodec.InputStruct inputstruct = new StructCodec.InputStruct ();
 		inputstruct.ID = (float)uLink.NetworkTime.serverTime;
-		inputstruct.hor = Input.GetAxis ("Horizontal");
-		inputstruct.jump = Input.GetButtonDown ("Jump");
-		inputstruct.shoot = Input.GetButton ("Fire1");
+		if (Input.GetKey ("f")) {
+			inputstruct.heal = true;
+			inputstruct.hor = 0;
+		} else {
+			inputstruct.hor = Input.GetAxis ("Horizontal");
+			inputstruct.jump = Input.GetButtonDown ("Jump");
+			inputstruct.shoot = Input.GetButton ("Fire1");
+		}
 		inputstruct.dt = Time.fixedDeltaTime;
 		inputstruct.aimpos = this.transform.FindChild ("Aim").transform.position;
-		if (Input.GetMouseButton (0)) {
+		if (Input.GetMouseButton (0) && inputstruct.heal != true) {
 			inputstruct.shoot = true;
 			anim.SetBool("Shoot", true);
 		}
@@ -44,19 +49,16 @@ public class ClientPlayer : uLink.MonoBehaviour {
 		tempStorage [0] = 0.0;
 		tempStorage [1] = inputstruct.shoot;
 		SendMessage("Shoot", tempStorage);
-		if (Input.GetKey ("r")) {
+		if (Input.GetKey ("r") && inputstruct.heal != true) {
 			inputstruct.reload = true;
 			anim.SetBool("Reload", true);
 			SendMessage("Reload");
 		}
 		else
 			anim.SetBool("Reload", false);
-		if (Input.GetKey ("f")) {
-			inputstruct.heal = true;
-		}
 		inputstruct.changeweapon = Input.GetAxis ("Mouse ScrollWheel");
 		uLink.NetworkView.Get (this).RPC ("UpdateInput", uLink.RPCMode.Server, inputstruct);
-		if (inputstruct.jump == true)
+		if (inputstruct.jump == true && inputstruct.heal != true)
 			motor.jump (Time.fixedTime);
 		motor.UpdateMovement (inputstruct.hor, Time.fixedDeltaTime);
 		inputstruct.result = this.transform.position;

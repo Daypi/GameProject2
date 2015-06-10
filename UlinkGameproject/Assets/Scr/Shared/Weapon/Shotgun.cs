@@ -6,10 +6,11 @@ public class ShotGun : Iweapon {
 	private float timeSinceLastShoot;
 	private int initialammo = 6;
 	private int ammo = 6;
-	private int damage = -2;
+	private int damage = -8;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
+	private float spreadFactor = 1.0f;
 	bool isreaload = false;
 	bool lasstShoot = false;
 	float reloadTime = 1.0f;
@@ -27,7 +28,11 @@ public class ShotGun : Iweapon {
 		if (shoot == true && lasstShoot == false) {
 			if (Time.time > fireDelay + timeSinceLastShoot && ammo != 0) {
 				timeSinceLastShoot = Time.time;
+				for (int i = 0; i <= 6; i++)
+				{
 				Vector3 direction = (target - origin).normalized;
+				direction.x += Random.Range(-spreadFactor, spreadFactor);
+				direction.y += Random.Range(-spreadFactor, spreadFactor);
 				Debug.DrawRay (origin, direction, Color.red, 5.0f);
 				RaycastHit hit;
 				if (rewinder.Raycast (origin, direction, out hit, time)) {
@@ -36,9 +41,9 @@ public class ShotGun : Iweapon {
 					if (TargetHit.tag == "Ghostcollider")
 						TargetHit.GetComponentInParent<ServerPLayer>().Life(damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Shotgun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
 				}
+				}
 				ammo--;
-				uLink.NetworkView net =  Owner.uLinkNetworkView();
-				net.RPC("Shoot", uLink.RPCMode.AllExceptOwner);
+				Owner.GetComponent<ServerPLayer>().SendProxyShoot();
 			}
 		}
 		lasstShoot = shoot;

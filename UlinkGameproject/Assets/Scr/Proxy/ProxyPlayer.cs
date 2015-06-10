@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ProxyPlayer : MonoBehaviour {
+public class ProxyPlayer : uLink.MonoBehaviour {
 	public LayerMask mask = -1;
 	public StructCodec.PlayerStateStruct PlayerState = new StructCodec.PlayerStateStruct();
 	// Use this for initialization
@@ -15,13 +15,16 @@ public class ProxyPlayer : MonoBehaviour {
 	} 
 
 	[RPC]
-	void Shoot(bool shoot)
+	public void TestRpc(uLink.NetworkMessageInfo info)
 	{
-		object[] tempStorage = new object[2];
-		tempStorage [0] = 0.0;
-		tempStorage [1] = shoot;
-		SendMessage("Shoot", tempStorage);
+		if (info.networkView.viewID == this.networkView.viewID) {
+			object[] tempStorage = new object[2];
+			tempStorage [0] = 0.0;
+			tempStorage [1] = true;
+			SendMessage ("Shoot", tempStorage);
+		}
 	}
+
 	// Update is called once per frame
 	void Update () {
 		if (this.transform.FindChild ("Aim").transform.localPosition.x < 0) {

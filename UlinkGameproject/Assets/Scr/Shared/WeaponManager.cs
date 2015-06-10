@@ -23,7 +23,7 @@ public class WeaponManager : uLink.MonoBehaviour {
 	void Start () {
 		weapon = new List<Iweapon>();
 		weapon.Add (new Gun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
-		weapon.Add (new ShotGun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
+		weapon.Add (new ShotGun (this.gameObject, ShotgunParticle, this.GetComponent<Rewinder> ()));
 		weapon.Add (new MachinGun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
 		weapon.Add (new Gun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
 		current = 0;
@@ -36,7 +36,7 @@ public class WeaponManager : uLink.MonoBehaviour {
 		this.aimik.solver.transform = Gun.transform.FindChild("Ik").transform;
 		Origin = Gun.transform.FindChild("Ik").gameObject.transform.position;
 	}
-	
+
 
 	public void Shoot(object[] tempStorage)
 	{
