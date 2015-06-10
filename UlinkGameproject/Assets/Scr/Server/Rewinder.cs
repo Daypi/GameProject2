@@ -21,12 +21,14 @@ public class Rewinder : MonoBehaviour {
 		Vector3 pos = Vector3.up;
 		foreach (Rewinder rewind in rewinders) {
 			foreach (RewinderStruct RS in rewind.Positions) {
-				if (RS.NetworkTime >= time && RS.NetworkTime <= (time + 0.1))
+				if (RS.NetworkTime >= time && RS.NetworkTime <= (time + 0.05))
 				{
 					pos = RS.position;
 				}
 			if (rewind.GhostCollider != this.GhostCollider)
 					rewind.GhostCollider.transform.position = pos;
+			else
+				rewind.GhostCollider.transform.position = new Vector3(0, 0, -100);
 			}
 		}
 		bool ret = Physics.Raycast (position, Direction, out hit, distance);
