@@ -107,6 +107,7 @@ public class Predictor : uLink.MonoBehaviour {
 			}
 			else
 			{
+				Debug.Log ("Je passe ici");
 				StructCodec.ResultStruct latest  = proxyStates[0];
 				transform.position = Vector3.Lerp(transform.position, latest.position, 0.5f);
 				this.transform.FindChild ("Aim").transform.position = proxyStates[0].aimpos;

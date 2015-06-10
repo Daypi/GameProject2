@@ -2,7 +2,7 @@
 
 Network.symmetricKeySize=128
 Network.incomingPassword=
-Network.sendRate=15
+Network.sendRate=30
 Network.trackRate=2
 Network.trackMaxDelta=0
 Network.isAuthoritativeServer=True
