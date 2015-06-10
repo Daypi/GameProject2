@@ -47,7 +47,7 @@ public class ServerPLayer : uLink.MonoBehaviour {
 			this.PlayerState.NbDead += 1;
             string killstring = "";
             this.PlayerState.isdead = true;
-            killstring = "\n" + this.PlayerState.nickname + " was killed by " + shootername + " using a " + weaponname;
+            killstring = "\n<color=#000000>" + this.PlayerState.nickname + "</color> was killed by <color=#000000>" + shootername + "</color> using a <color=#000000>" + weaponname + "</color>";
             Predictor[] predictors = FindObjectsOfType(typeof (Predictor)) as Predictor[];
             foreach (var predi in predictors)
             {
