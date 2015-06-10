@@ -12,7 +12,7 @@ public class MachinGun : Iweapon {
 	private Rewinder rewinder;
 	bool isreaload = false;
 	bool lasstShoot = false;
-	float reloadTime = 1.0f;
+	float reloadTime = 3.07f;
 	float timeSinceReload;
 	float distance = 20.0f;
 	public MachinGun(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}
