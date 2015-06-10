@@ -27,11 +27,23 @@ public class Sword : Iweapon {
 			return;
 		}
 		origin = Owner.transform.position;
-		origin.y = Owner.transform.position.y + 0.5f;
+		origin.y = Owner.transform.position.y + 1f;
 		if (shoot == true && lasstShoot == false) {
 			if (Time.time > fireDelay + timeSinceLastShoot) {
 				timeSinceLastShoot = Time.time;
 				Vector3 direction = (target - origin).normalized;
+				if (direction.x > 0)
+				{
+					direction.x = 1;
+					direction.y = 0;
+					direction.z = 0;
+				}
+				if (direction.y > 0)
+				{
+					direction.x = -1;
+					direction.y = 0;
+					direction.z = 0;
+				}
 				Debug.DrawRay (origin, direction, Color.red, 5.0f);
 				RaycastHit hit;
 				if (rewinder.Raycast (origin, direction, out hit, time, distance)) {
