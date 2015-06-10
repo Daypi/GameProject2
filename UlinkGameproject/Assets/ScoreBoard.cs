@@ -4,14 +4,15 @@ using System.Collections;
 
 public class ScoreBoard : MonoBehaviour {
     public string scores;
+    public string timeleft = "";
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
 	// Update is called once per frame
 	void Update () {
         scores = "";
+        scores += "Time Left : " + timeleft;
         scores += "Name \t   Kills \t Deaths \n";
         ClientPlayer player = FindObjectOfType(typeof(ClientPlayer)) as ClientPlayer;
         if (player)
