@@ -25,7 +25,7 @@ public class WeaponManager : uLink.MonoBehaviour {
 		weapon.Add (new Gun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
 		weapon.Add (new ShotGun (this.gameObject, ShotgunParticle, this.GetComponent<Rewinder> ()));
 		weapon.Add (new MachinGun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
-		weapon.Add (new Gun (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
+		weapon.Add (new Sword (this.gameObject, GunParticle, this.GetComponent<Rewinder> ()));
 		current = 0;
 		lastcurrent = 0;
 		Gun.transform.FindChild("Mesh").GetComponent<MeshRenderer>().enabled = true;

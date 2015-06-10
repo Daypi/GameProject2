@@ -43,7 +43,10 @@ public class ServerPLayer : uLink.MonoBehaviour {
         
         if (this.PlayerState.life <= 0 && PlayerState.isdead == false)
         {
-			shooter.NbKill += 1;
+			if (shooter != null)
+			{
+				shooter.NbKill += 1;
+			}
 			this.PlayerState.NbDead += 1;
             string killstring = "";
             this.PlayerState.isdead = true;

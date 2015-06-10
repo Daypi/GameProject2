@@ -3,7 +3,7 @@ using System.Collections;
 using uLink;
 
 public class Gun : Iweapon {
-	private float fireDelay;
+	private float fireDelay = 0.1f;
 	private float timeSinceLastShoot;
 	private int initialammo = 10;
 	private int ammo = 10;
@@ -15,6 +15,7 @@ public class Gun : Iweapon {
 	bool lasstShoot = false;
 	float reloadTime = 1.0f;
 	float timeSinceReload;
+	float distance = 20.0f;
 	public Gun(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}
 	public void ServerShoot(Vector3 target, Vector3 origin, double time, bool shoot){
 		if (isreaload == true) {
@@ -31,7 +32,7 @@ public class Gun : Iweapon {
 				Vector3 direction = (target - origin).normalized;
 				Debug.DrawRay (origin, direction, Color.red, 5.0f);
 				RaycastHit hit;
-				if (rewinder.Raycast (origin, direction, out hit, time)) {
+				if (rewinder.Raycast (origin, direction, out hit, time, distance)) {
 					Collider TargetHit = hit.collider;
 					Debug.Log (TargetHit);
 					if (TargetHit.tag == "Ghostcollider")
@@ -80,7 +81,6 @@ public class Gun : Iweapon {
 				timeSinceLastShoot = Time.time;
 			}
 			ammo--;
-			GameObject.Find("PlayerHUD").GetComponent<BulletManager>().currentBullets = ammo;
 		}
 
 		lasstShoot = shoot;
