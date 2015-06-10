@@ -25,6 +25,7 @@ public class StartClient : uLink.MonoBehaviour
 	private double CurrentGameTimer;
 	public Texture2D iconFavorite;
 	public Texture2D iconNonfavorite;
+	public string levelname ;
 
 	public UnityEngine.MonoBehaviour[] enableWhenGUI;
 	public UnityEngine.MonoBehaviour[] disableWhenGUI;
@@ -484,11 +485,17 @@ public class StartClient : uLink.MonoBehaviour
 		Application.LoadLevel ("SelectCharacterinter");
 	}
 
+	[RPC]
+	void LevelName (String level)
+	{
+		levelname = level;
+	}
+
 	void OnLevelWasLoaded(int level) {
-		if (Application.loadedLevelName == "CasteWorldClient")
-			uLink.NetworkView.Get (this).RPC ("Ready", uLink.RPCMode.Server);
-		else if (Application.loadedLevelName == "SelectCharacterinter")
+		if (Application.loadedLevelName == "SelectCharacterinter")
 			uLink.NetworkView.Get (this).RPC ("ReadyInter", uLink.RPCMode.Server);
+		else if (Application.loadedLevelName == levelname + "Client")
+			uLink.NetworkView.Get (this).RPC ("Ready", uLink.RPCMode.Server);
 	}	
 }
 

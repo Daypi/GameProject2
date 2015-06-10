@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraCharacterSelection : MonoBehaviour {
 
 	int currplayer;
+	public string levelname = "";
 	// Use this for initialization
 	void Start () {
 		currplayer = 0;
@@ -90,7 +91,7 @@ public class CameraCharacterSelection : MonoBehaviour {
 		}
 		if (GUI.Button (new Rect (Screen.width * (40f / 100f), Screen.height * (75f / 100f), Screen.width * (25f / 100f), Screen.height * (15f / 100f)), "Lock Selection")) {
 			uLink.NetworkView.Get (this).RPC ("Lock", uLink.RPCMode.Server, currplayer);
-			Application.LoadLevel("CasteWorldClient");
+			Application.LoadLevel(((StartClient)(FindObjectOfType(typeof(StartClient)))).levelname + "Client");
 		}
 	}
 

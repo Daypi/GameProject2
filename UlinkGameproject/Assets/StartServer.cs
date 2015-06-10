@@ -48,6 +48,8 @@ public class StartServer : uLink.MonoBehaviour
 				isGameStart = false;
 				CurrentGameTimer = GameTimer;
 				Application.LoadLevel ("SelectCharacterServerInter");
+				int level = UnityEngine.Random.Range (0, 3);
+				LevelName = Names [level];
 			}
 		}
 	}
@@ -85,6 +87,9 @@ public class StartServer : uLink.MonoBehaviour
 		public void Instantiate(uLink.NetworkPlayer player, int mesh)
 		{
 				Quaternion rotation = Quaternion.Euler(startRotation);
+				GameObject[] respawns = GameObject.FindGameObjectsWithTag("Respawn");
+				int selectedId = UnityEngine.Random.Range(0, respawns.Length);
+				startPosition = respawns [selectedId].transform.position;
 				switch (mesh)
 			{
 			case 0:
@@ -144,6 +149,8 @@ public class StartServer : uLink.MonoBehaviour
 	
 		uLink.Network.InitializeServer(maxConnections, port);
 		CurrentGameTimer = GameTimer;
+		int level = UnityEngine.Random.Range (0, 2);
+		LevelName = Names [level];
 	}
 
 	void uLink_OnServerInitialized()
@@ -171,6 +178,7 @@ public class StartServer : uLink.MonoBehaviour
 
 	void uLink_OnPlayerConnected(uLink.NetworkPlayer player)
 	{
+		this.networkView.RPC ("LevelName", uLink.RPCMode.Others, LevelName);
 		instantiateOnConnected.InstantiateStart(player);
 		String Name = (string)player.loginData.Read<String>();
 		Players.Add(new LocalPLayerData(player, name));
@@ -185,6 +193,7 @@ public class StartServer : uLink.MonoBehaviour
 				pl.playerIsReadyInter = true;
 		}
 		instantiateOnConnected.InstantiateStart(info.sender);
+		this.networkView.RPC ("LevelName", uLink.RPCMode.Others, LevelName);
 	}
 
 	[RPC]
@@ -223,7 +232,7 @@ public class StartServer : uLink.MonoBehaviour
 				if (pl.playerLockSelection == false)
 					return;
 			}
-			Application.LoadLevel (LevelName);
+			Application.LoadLevel (LevelName + "Server");
 		}
 	}
 }
