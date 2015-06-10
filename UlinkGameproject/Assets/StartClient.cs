@@ -6,6 +6,7 @@
 
 using UnityEngine;
 using uLink;
+using System;
 
 [AddComponentMenu("uLink Utilities/Client GUI")]
 public class StartClient : uLink.MonoBehaviour
@@ -16,10 +17,12 @@ public class StartClient : uLink.MonoBehaviour
 	public string quickHost = "127.0.0.1";
 	public int quickPort = 7100;
 
+	private bool IsgameEnding = false;
 	public bool hasAdvancedMode = true;
 	public string gameType = "MyUniqueGameType";
 	public bool showGameLevel = false;
 
+	private double CurrentGameTimer;
 	public Texture2D iconFavorite;
 	public Texture2D iconNonfavorite;
 
@@ -65,7 +68,7 @@ public class StartClient : uLink.MonoBehaviour
 
 		if (dontDestroyOnLoad) DontDestroyOnLoad(this);
 
-		playerName = PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 100));
+		playerName = PlayerPrefs.GetString("playerName", "Guest" + UnityEngine.Random.Range(1, 100));
 	}
 
 	void OnDisable()
@@ -462,9 +465,24 @@ public class StartClient : uLink.MonoBehaviour
 		}
 	}
 
+	[RPC]
+	void UpdateTimer(double timer)
+	{
+		CurrentGameTimer = timer;
+		GameObject.Find ("Score").GetComponent<ScoreBoard> ().timeleft = Convert.ToInt32(timer).ToString() + "\n";
+	}
+
+	[RPC]
+	void GameEnding()
+	{
+		Application.LoadLevel ("SelectCharacterinter");
+	}
+
 	void OnLevelWasLoaded(int level) {
 		if (Application.loadedLevelName == "CasteWorldClient")
 			uLink.NetworkView.Get (this).RPC ("Ready", uLink.RPCMode.Server);
-	}
+		else if (Application.loadedLevelName == "SelectCharacterinter")
+			uLink.NetworkView.Get (this).RPC ("ReadyInter", uLink.RPCMode.Server);
+	}	
 }
 

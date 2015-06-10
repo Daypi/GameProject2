@@ -66,6 +66,8 @@ public class ServerPLayer : uLink.MonoBehaviour {
 	{
 		if (Time.time > Healdelay + timesincelastHeal) {
 			this.PlayerState.life += 2;
+			if (this.PlayerState.life > 100)
+				this.PlayerState.life = 100;
 			timesincelastHeal = Time.time;
 		}
 	}

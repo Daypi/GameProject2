@@ -8,6 +8,7 @@ public class LocalPLayerData {
 	public int mesh;
 	public bool playerLockSelection = false;
 	public bool playerIsReady = false;
+	public bool playerIsReadyInter = false;
 	public LocalPLayerData(uLink.NetworkPlayer _player, string _nickname)
 	{
 		Player = _player;

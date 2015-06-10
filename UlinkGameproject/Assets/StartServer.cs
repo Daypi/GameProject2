@@ -24,7 +24,32 @@ using System.Collections.Generic;
 [AddComponentMenu("uLink Utilities/Simple Server")]
 public class StartServer : uLink.MonoBehaviour
 {
-	
+
+	private bool isGameStart = false;
+	private double elapsedTime = 0;
+	void Update()
+	{
+		if (isGameStart) {
+			CurrentGameTimer -= Time.deltaTime;
+			elapsedTime += Time.deltaTime;
+			if (elapsedTime > 1.0)
+			{
+				this.networkView.RPC("UpdateTimer", uLink.RPCMode.Others, CurrentGameTimer);
+				elapsedTime = 0.0;
+			}
+			if (CurrentGameTimer <= 0.0)
+			{
+				this.networkView.RPC("GameEnding", uLink.RPCMode.Others);
+				foreach (LocalPLayerData pl in Players) {
+					pl.playerLockSelection = false;
+					pl.playerIsReady = false;
+				}
+				isGameStart = false;
+				CurrentGameTimer = GameTimer;
+				Application.LoadLevel ("SelectCharacterServerInter");
+			}
+		}
+	}
 
 	[Serializable]
 	public class InstantiateOnConnected
@@ -105,6 +130,8 @@ public class StartServer : uLink.MonoBehaviour
 	public string LevelName = "CastleWorldServer";
 	public bool dontDestroyOnLoad = false;
 	private List<LocalPLayerData> Players = new List<LocalPLayerData>();
+	public double CurrentGameTimer;
+	public double GameTimer = 300;
 
 	public InstantiateOnConnected instantiateOnConnected = new InstantiateOnConnected();
 	
@@ -115,6 +142,7 @@ public class StartServer : uLink.MonoBehaviour
 		if (dontDestroyOnLoad) DontDestroyOnLoad(this);
 	
 		uLink.Network.InitializeServer(maxConnections, port);
+		CurrentGameTimer = GameTimer;
 	}
 
 	void uLink_OnServerInitialized()
@@ -133,6 +161,10 @@ public class StartServer : uLink.MonoBehaviour
 			
 			// this is not really necessery unless you are removing NetworkViews without calling uLink.Network.Destroy
 			uLink.Network.RemoveInstantiates(player);
+			foreach (LocalPLayerData pl in Players) {
+				if (pl.Player == player)
+					Players.Remove(pl);
+			}
 		}
 	}
 
@@ -142,6 +174,16 @@ public class StartServer : uLink.MonoBehaviour
 		String Name = (string)player.loginData.Read<String>();
 		Players.Add(new LocalPLayerData(player, name));
 		Debug.Log (name);
+	}
+
+	[RPC]
+	void ReadyInter(uLink.NetworkMessageInfo info)
+	{
+		foreach (LocalPLayerData pl in Players) {
+			if (pl.Player == info.sender)
+				pl.playerIsReadyInter = true;
+		}
+		instantiateOnConnected.InstantiateStart(info.sender);
 	}
 
 	[RPC]
@@ -158,7 +200,7 @@ public class StartServer : uLink.MonoBehaviour
 		if (Players.Count == maxConnections) {
 			foreach (LocalPLayerData pl in Players) {
 				instantiateOnConnected.Instantiate (pl.Player, pl.mesh);
-				Debug.Log ("GameStart");
+				isGameStart = true;
 			}
 		}
 
