@@ -7,11 +7,14 @@ public class ClientPlayer : uLink.MonoBehaviour {
 
 	public Queue<StructCodec.InputStruct> inputarray;
 	public CharacterMotor motor;
+	public GameObject healpart;
 	public LayerMask mask = -1;
 	public int CharacterMesh = 0;
 	public Animator anim;
 	public StructCodec.PlayerStateStruct PlayerState = new StructCodec.PlayerStateStruct();
-
+	double timesincelastHeal = 0;
+	double Healdelay = 0.5;
+	
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info ) { 
 		System.RuntimeTypeHandle toto = new System.RuntimeTypeHandle();
         PlayerState.nickname = (string)info.networkView.initialData.Read<string>();
@@ -24,7 +27,16 @@ public class ClientPlayer : uLink.MonoBehaviour {
 		motor = new CharacterMotor(this.GetComponent<CharacterController>(), anim);
 		Physics.IgnoreLayerCollision(8, 8);
 	}
-	
+
+	void heal()
+	{
+		if (Time.time > Healdelay + timesincelastHeal) {
+		GameObject tmp = (GameObject)Instantiate (healpart, this.transform.position, Quaternion.Euler (-90, 0, 0));
+		Destroy(tmp, 1.0f);
+			timesincelastHeal = Time.time;
+		}
+	}
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		StructCodec.InputStruct inputstruct = new StructCodec.InputStruct ();
@@ -32,6 +44,7 @@ public class ClientPlayer : uLink.MonoBehaviour {
 		if (Input.GetKey ("f")) {
 			inputstruct.heal = true;
 			inputstruct.hor = 0;
+			heal ();
 		} else {
 			inputstruct.hor = Input.GetAxis ("Horizontal");
 			inputstruct.jump = Input.GetButtonDown ("Jump");
