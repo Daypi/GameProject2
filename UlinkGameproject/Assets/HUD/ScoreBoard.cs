@@ -13,7 +13,7 @@ public class ScoreBoard : MonoBehaviour {
 	void Update () {
         scores = "";
         scores += "Time Left : " + timeleft;
-        scores += "Name \t   Kills \t Deaths \n";
+        scores += "\nName \t   Kills \t Deaths \n";
         ClientPlayer player = FindObjectOfType(typeof(ClientPlayer)) as ClientPlayer;
         if (player)
             scores += player.PlayerState.nickname + "\t\t" + player.PlayerState.NbKill + "\t\t" + player.PlayerState.NbDead + "\n";

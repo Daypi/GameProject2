@@ -22,10 +22,13 @@ public class HpBar : MonoBehaviour {
         {
             var centeredStyle = GUI.skin.GetStyle("Label");
             centeredStyle.alignment = TextAnchor.UpperCenter;
-            centeredStyle.normal.textColor = Color.yellow;
+            centeredStyle.normal.textColor = Color.black;
             Vector3 onScreenPosition = camera.WorldToScreenPoint(this.transform.position);
             Rect displayRect = new Rect(onScreenPosition.x - 50, Screen.height - (onScreenPosition.y - 15), 100, 10);
             Rect namePosition = new Rect(onScreenPosition.x - 50, Screen.height - (onScreenPosition.y +5), 100, 100);
+            Rect borderNamePosition = new Rect(onScreenPosition.x - 50 + 1, Screen.height - (onScreenPosition.y + 5) + 1, 100, 100);
+            GUI.Label(borderNamePosition, pname);
+            centeredStyle.normal.textColor = Color.yellow;
             GUI.Label(namePosition, pname);
             GUI.DrawTexture(displayRect, maxHealthtex);
             displayRect.width = scale * 100;
