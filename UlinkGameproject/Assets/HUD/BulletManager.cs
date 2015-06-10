@@ -10,6 +10,11 @@ public class BulletManager : MonoBehaviour {
 	
 	}
 	
+    void setBullets(int nb)
+    {
+        currentBullets = nb;
+    }
+
 	// Update is called once per frame
 	void Update () {
         int i = 1;
