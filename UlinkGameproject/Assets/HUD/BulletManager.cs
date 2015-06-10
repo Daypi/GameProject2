@@ -7,7 +7,7 @@ public class BulletManager : MonoBehaviour {
     int maxBullets = 60;
 	// Use this for initialization
 	void Start () {
-	
+        this.GetComponent<Canvas>().worldCamera = Camera.main;
 	}
 	
     void setBullets(int nb)
