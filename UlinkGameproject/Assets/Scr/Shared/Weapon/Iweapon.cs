@@ -8,4 +8,5 @@ public interface Iweapon   {
 	void ClientReload();
 	void ServerReload();
 	void ProxyReload();
+	int getAmmo();
 }

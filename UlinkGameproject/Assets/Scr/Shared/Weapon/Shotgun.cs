@@ -84,10 +84,17 @@ public class ShotGun : Iweapon {
 				timeSinceLastShoot = Time.time;
 			}
 			ammo--;
+			GameObject.Find("PlayerHUD").GetComponent<BulletManager>().currentBullets = ammo;
 		}
 
 		lasstShoot = shoot;
 	}
+
+	public int getAmmo()
+	{
+		return ammo;
+	}
+
 	public void ProxyShoot(bool shoot){		
 			Owner.GetComponent<WeaponManager> ().instantiate (Particule);
 	}

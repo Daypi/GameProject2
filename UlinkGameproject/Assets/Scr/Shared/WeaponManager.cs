@@ -71,9 +71,11 @@ public class WeaponManager : uLink.MonoBehaviour {
 			return;
 		}*/
 		if (this.networkView.isProxy)
-			current = this.GetComponent<ProxyPlayer>().PlayerState.weapon;
-		else if (this.networkView.isOwner)
-			current = this.GetComponent<ClientPlayer>().PlayerState.weapon;
+			current = this.GetComponent<ProxyPlayer> ().PlayerState.weapon;
+		else if (this.networkView.isOwner) {
+			current = this.GetComponent<ClientPlayer> ().PlayerState.weapon;
+			GameObject.Find("PlayerHUD").GetComponent<BulletManager>().currentBullets = weapon[current].getAmmo();
+		}
 		else 
 			current = this.GetComponent<ServerPLayer>().PlayerState.weapon;
 		this.transform.FindChild ("Skeleton").GetComponent<Animator>().SetInteger("Weapon", current);
