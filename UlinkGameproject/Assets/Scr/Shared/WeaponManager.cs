@@ -47,7 +47,7 @@ public class WeaponManager : uLink.MonoBehaviour {
 		else if (this.networkView.isOwner)
 			weapon[current].ClientShoot (shoot);
 		else 
-			weapon[current].ServerShoot(TargetIK.transform.position, Origin, (uLink.NetworkTime.serverTime - time - 0.01), shoot);
+			weapon[current].ServerShoot(TargetIK.transform.position, Origin, (uLink.NetworkTime.serverTime - time - 0.1), shoot);
 	}
 
 	public void Reload()
