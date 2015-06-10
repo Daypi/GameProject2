@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using uLink;
 
-public class MachinGun : Iweapon {
-	private double fireDelay = 0.1;
+public class Sword : Iweapon {
+	private double fireDelay = 1.0;
 	private float timeSinceLastShoot;
-	private int initialammo = 50;
-	private int ammo = 60;
-	private int damage = -3;
+	private int initialammo = 0;
+	private int ammo = 0;
+	private int damage = -70;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
 	bool isreaload = false;
 	bool lasstShoot = false;
-	float reloadTime = 1.0f;
+	float reloadTime = 0;
 	float timeSinceReload;
-	float distance = 20.0f;
-	public MachinGun(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}
+	float distance = 1.50f;
+	public Sword(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}
 	public void ServerShoot(Vector3 target, Vector3 origin, double time, bool shoot){
 		if (isreaload == true) {
 			if (Time.time > reloadTime + timeSinceReload)
@@ -25,8 +26,10 @@ public class MachinGun : Iweapon {
 			}
 			return;
 		}
-		if (shoot == true) {
-			if (Time.time > fireDelay + timeSinceLastShoot && ammo != 0) {
+		origin = Owner.transform.position;
+		origin.y = Owner.transform.position.y + 0.5f;
+		if (shoot == true && lasstShoot == false) {
+			if (Time.time > fireDelay + timeSinceLastShoot) {
 				timeSinceLastShoot = Time.time;
 				Vector3 direction = (target - origin).normalized;
 				Debug.DrawRay (origin, direction, Color.red, 5.0f);
@@ -35,9 +38,9 @@ public class MachinGun : Iweapon {
 					Collider TargetHit = hit.collider;
 					Debug.Log (TargetHit);
 					if (TargetHit.tag == "Ghostcollider")
-						TargetHit.GetComponentInParent<ServerPLayer>().Life(damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "MachineGun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
+						TargetHit.GetComponentInParent<ServerPLayer> ().Life (damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Gun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
+
 				}
-				ammo--;
 				Owner.GetComponent<ServerPLayer>().SendProxyShoot();
 			}
 		}
@@ -73,11 +76,9 @@ public class MachinGun : Iweapon {
 			}
 			return;
 		}
-		if (shoot == true && ammo != 0) {
+		if (shoot == true && lasstShoot == false) {
 			if (Time.time > fireDelay + timeSinceLastShoot) {  //&& ammo != 0)
-				Owner.GetComponent<WeaponManager> ().instantiate (Particule);
 				timeSinceLastShoot = Time.time;
-				ammo--;
 			}
 		}
 
@@ -90,6 +91,5 @@ public class MachinGun : Iweapon {
 	}
 
 	public void ProxyShoot(bool shoot){		
-			Owner.GetComponent<WeaponManager> ().instantiate (Particule);
 	}
 }

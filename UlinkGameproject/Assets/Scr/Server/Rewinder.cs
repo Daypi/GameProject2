@@ -16,7 +16,7 @@ public class Rewinder : MonoBehaviour {
 		Positions.Add (rewind);
 	}
 
-	public bool Raycast(Vector3 position, Vector3 Direction, out RaycastHit hit, double time)
+	public bool Raycast(Vector3 position, Vector3 Direction, out RaycastHit hit, double time, float distance)
 	{
 		Vector3 pos = Vector3.up;
 		foreach (Rewinder rewind in rewinders) {
@@ -29,7 +29,7 @@ public class Rewinder : MonoBehaviour {
 					rewind.GhostCollider.transform.position = pos;
 			}
 		}
-		bool ret = Physics.Raycast (position, Direction, out hit);
+		bool ret = Physics.Raycast (position, Direction, out hit, distance);
 		foreach (Rewinder rewind in rewinders) {
 			return ret;
 				rewind.GhostCollider.transform.position = new Vector3(0, 0, -100);

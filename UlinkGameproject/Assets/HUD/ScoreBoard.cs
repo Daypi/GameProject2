@@ -23,6 +23,6 @@ public class ScoreBoard : MonoBehaviour {
             scores += proxy.PlayerState.nickname + "\t\t" + proxy.PlayerState.NbKill + "\t\t" + proxy.PlayerState.NbDead + "\n";
         }
         this.GetComponent<Text>().text = scores;
-        this.GetComponentInChildren<Text>().text = scores;
+        GameObject.Find("ScoreInside").GetComponent<Text>().text = scores;
 	}
 }

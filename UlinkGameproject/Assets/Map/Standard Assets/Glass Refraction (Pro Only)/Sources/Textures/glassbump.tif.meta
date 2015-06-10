@@ -1,13 +1,17 @@
 fileFormatVersion: 2
 guid: 4b8d081e9d114c7f1100f5ab44295342
+<<<<<<< HEAD
 timeCreated: 1433951592
 licenseType: Free
+=======
+>>>>>>> origin/ReworkTom
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+<<<<<<< HEAD
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -18,6 +22,18 @@ TextureImporter:
     convertToNormalMap: 0
     externalNormalMap: 0
     heightScale: .25
+=======
+    linearTexture: 1
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 2
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 1
+    externalNormalMap: 1
+    heightScale: .117766477
+>>>>>>> origin/ReworkTom
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -27,6 +43,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
+<<<<<<< HEAD
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
@@ -38,14 +55,32 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   spriteMode: 1
+=======
+  maxTextureSize: 512
+  textureSettings:
+    filterMode: 1
+    aniso: 9
+    mipBias: 0
+    wrapMode: 0
+  nPOTScale: 1
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 0
+>>>>>>> origin/ReworkTom
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+<<<<<<< HEAD
   alphaIsTransparency: 1
   textureType: 8
+=======
+  alphaIsTransparency: 0
+  textureType: 1
+>>>>>>> origin/ReworkTom
   buildTargetSettings: []
   spriteSheet:
     sprites: []
