@@ -10,7 +10,7 @@ public class ShotGun : Iweapon {
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
-	private float spreadFactor = 1.0f;
+	private float spreadFactor = 0.3f;
 	bool isreaload = false;
 	bool lasstShoot = false;
 	float reloadTime = 0.68f;

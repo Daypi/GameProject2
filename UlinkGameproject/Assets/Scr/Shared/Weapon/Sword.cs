@@ -15,7 +15,7 @@ public class Sword : Iweapon {
 	bool lasstShoot = false;
 	float reloadTime = 0;
 	float timeSinceReload;
-	float distance = 1.50f;
+	float distance = 2.50f;
 	public Sword(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}
 	public void ServerShoot(Vector3 target, Vector3 origin, double time, bool shoot){
 		if (isreaload == true) {
@@ -27,7 +27,11 @@ public class Sword : Iweapon {
 			return;
 		}
 		origin = Owner.transform.position;
+		Vector3 origin1 = Owner.transform.position;
+		Vector3 origin2 = Owner.transform.position;
 		origin.y = Owner.transform.position.y + 1f;
+		origin1.y = Owner.transform.position.y + 1.5f;
+		origin2.y = Owner.transform.position.y + 0.5f;
 		if (shoot == true && lasstShoot == false) {
 			if (Time.time > fireDelay + timeSinceLastShoot) {
 				timeSinceLastShoot = Time.time;
@@ -52,6 +56,20 @@ public class Sword : Iweapon {
 					if (TargetHit.tag == "Ghostcollider")
 						TargetHit.GetComponentInParent<ServerPLayer> ().Life (damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Gun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
 
+				}
+				else if (rewinder.Raycast (origin1, direction, out hit, time, distance)) {
+					Collider TargetHit = hit.collider;
+					Debug.Log (TargetHit);
+					if (TargetHit.tag == "Ghostcollider")
+						TargetHit.GetComponentInParent<ServerPLayer> ().Life (damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Gun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
+					
+				}
+				else if (rewinder.Raycast (origin2, direction, out hit, time, distance)) {
+					Collider TargetHit = hit.collider;
+					Debug.Log (TargetHit);
+					if (TargetHit.tag == "Ghostcollider")
+						TargetHit.GetComponentInParent<ServerPLayer> ().Life (damage, this.Owner.GetComponent<ServerPLayer>().PlayerState.nickname, "Gun", this.Owner.GetComponent<ServerPLayer>().PlayerState);
+					
 				}
 				Owner.GetComponent<ServerPLayer>().SendProxyShoot();
 			}

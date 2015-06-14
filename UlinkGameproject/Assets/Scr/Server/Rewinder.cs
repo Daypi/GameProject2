@@ -15,6 +15,7 @@ public class Rewinder : MonoBehaviour {
 	{
 		Positions.Add (rewind);
 	}
+	
 
 	public bool Raycast(Vector3 position, Vector3 Direction, out RaycastHit hit, double time, float distance)
 	{

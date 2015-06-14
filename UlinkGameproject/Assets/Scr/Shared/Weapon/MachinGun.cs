@@ -6,13 +6,13 @@ public class MachinGun : Iweapon {
 	private float timeSinceLastShoot;
 	private int initialammo = 50;
 	private int ammo = 60;
-	private int damage = -3;
+	private int damage = -6;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
 	bool isreaload = false;
 	bool lasstShoot = false;
-	float reloadTime = 3.07f;
+	float reloadTime = 1.535f;
 	float timeSinceReload;
 	float distance = 20.0f;
 	public MachinGun(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}

@@ -7,13 +7,13 @@ public class Gun : Iweapon {
 	private float timeSinceLastShoot;
 	private int initialammo = 10;
 	private int ammo = 10;
-	private int damage = -8;
+	private int damage = -15;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
 	bool isreaload = false;
 	bool lasstShoot = false;
-	float reloadTime = 2.18f;
+	float reloadTime = 1.09f;
 	float timeSinceReload;
 	float distance = 20.0f;
 	public Gun(GameObject _owner, GameObject _particule, Rewinder _rewinder){ Owner = _owner; Particule = _particule; rewinder = _rewinder;}
