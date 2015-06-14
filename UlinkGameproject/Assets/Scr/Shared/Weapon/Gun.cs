@@ -7,7 +7,7 @@ public class Gun : Iweapon {
 	private float timeSinceLastShoot;
 	private int initialammo = 10;
 	private int ammo = 10;
-	private int damage = -15;
+	private int damage = -12;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;

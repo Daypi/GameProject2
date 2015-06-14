@@ -6,7 +6,7 @@ public class MachinGun : Iweapon {
 	private float timeSinceLastShoot;
 	private int initialammo = 50;
 	private int ammo = 60;
-	private int damage = -6;
+	private int damage = -5;
 	private GameObject Owner;
 	private GameObject Particule;
 	private Rewinder rewinder;
